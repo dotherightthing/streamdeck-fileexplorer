@@ -1,0 +1,47 @@
+{
+	"Name": "File Explorer",
+	"Version": "0.1.0.0",
+	"Author": "Arthur Paucke",
+	"Actions": [
+		{
+			"Name": "Open Folder",
+			"UUID": "de.artus.fileexplorer.openfolder",
+			"Icon": "imgs/actions/counter/icon",
+			"Tooltip": "Displays a count, which increments by one on press.",
+			"PropertyInspectorPath": "ui/openFolder.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/counter/key",
+					"TitleAlignment": "middle"
+				}
+			]
+		}
+	],
+	"Category": "File Explorer",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"Description": "Open folders and view their content all on the Stream Deck. Navigate through them and open files with a single click. Also images get displayed directly on the Stream Deck. More features: Open parent folder, scroll through pages, show page info, various click actions.",
+	"Icon": "imgs/plugin/marketplace",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.4"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "10.15"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "de.artus.fileexplorer"
+}

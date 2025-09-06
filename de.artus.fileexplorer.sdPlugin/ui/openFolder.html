@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="utf-8" />
+    <script src="sdpi-components.js"></script>
+</head>
+
+<body>
+
+    <sdpi-item label="Folder">
+        <sdpi-delegate
+            format-type="path"
+            setting="folderpath"
+            invoke="openfolder"
+            label="Open Folder"
+        ></sdpi-delegate>
+    </sdpi-item>
+
+    <sdpi-item label="Click Action">
+        <sdpi-select setting="openaction" placeholder="Select an action">
+            <option value="streamdeck">Open on StreamDeck</option>
+            <option value="nativeexplorer">Open in native file explorer</option>
+            <option value="cmd">Open in Terminal / CMD</option>
+            <option value="custom">Run custom command (advanced)</option>
+        </sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item id="customcommanditem">
+        <p>Shell command where <code>{path}</code> gets replaced with your selected folder path. Example command: <code>explorer {path}</code></p>
+        <sdpi-textarea
+            setting="customcommand"
+        ></sdpi-textarea>
+    </sdpi-item>
+
+    <script>
+
+        function updateCustomCommandItemVisibility() {
+            const selectElement = document.querySelector('[setting="openaction"]');
+            const selectedValue = selectElement.value;
+            const customCommandItem = document.getElementById("customcommanditem");
+            customCommandItem.style.display = (selectedValue === "custom") ? "block" : "none";
+        }
+
+        document.querySelector('[setting="openaction"]')
+            .addEventListener("valuechange", updateCustomCommandItemVisibility);
+
+
+        // Initial call to set the visibility based on the current value
+        updateCustomCommandItemVisibility();
+    </script>
+
+</body>
+
+</html>
