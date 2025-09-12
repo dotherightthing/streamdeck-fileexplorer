@@ -6,16 +6,79 @@
 		{
 			"Name": "Open Folder",
 			"UUID": "de.artus.fileexplorer.openfolder",
-			"Icon": "imgs/actions/counter/icon",
-			"Tooltip": "Displays a count, which increments by one on press.",
+			"Icon": "imgs/actions/openFolder/icon",
+			"Tooltip": "Open a folder and view its content on the Stream Deck or use other actions to open it.",
 			"PropertyInspectorPath": "ui/openFolder.html",
 			"Controllers": [
 				"Keypad"
 			],
 			"States": [
 				{
-					"Image": "imgs/actions/counter/key",
-					"TitleAlignment": "middle"
+					"Image": "imgs/actions/openFolder/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Folder Item View",
+			"UUID": "de.artus.fileexplorer.folderitemview",
+			"Icon": "imgs/actions/folderItemView/icon",
+			"Tooltip": "View a specific item in a folder on the Stream Deck.",
+			"PropertyInspectorPath": "ui/folderItemView.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"DisableAutomaticStates": true,
+			"States": [
+				{
+					"Image": "imgs/actions/folderItemView/empty",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/folderItemView/invisible",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Next Page",
+			"UUID": "de.artus.fileexplorer.nextpage",
+			"Icon": "imgs/actions/nextPage/icon",
+			"Tooltip": "Open the next page of a folder's content on the Stream Deck.",
+			"PropertyInspectorPath": "ui/nextPage.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"DisableAutomaticStates": true,
+			"States": [
+				{
+					"Image": "imgs/actions/nextPage/key",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/nextPage/key-disabled",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Previous Page",
+			"UUID": "de.artus.fileexplorer.prevpage",
+			"Icon": "imgs/actions/prevPage/icon",
+			"Tooltip": "Open the previous page of a folder's content on the Stream Deck.",
+			"PropertyInspectorPath": "ui/prevPage.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"DisableAutomaticStates": true,
+			"States": [
+				{
+					"Image": "imgs/actions/prevPage/key",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/prevPage/key-disabled",
+					"TitleAlignment": "bottom"
 				}
 			]
 		}
