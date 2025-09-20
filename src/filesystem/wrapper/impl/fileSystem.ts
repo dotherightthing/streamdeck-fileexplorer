@@ -26,11 +26,11 @@ export class FileSystem implements FileSystemWrapper {
         return items.map(item => path.join(folderPath, item));
     }
 
-    isPathDirectory(path: string): Promise<boolean> | boolean {
-        return fs.pathExists(path).then(exists => {
-            if (!exists) return false;
-            return fs.stat(path).then(stat => stat.isDirectory());
-        });
+    async isPathDirectory(path: string): Promise<boolean> {
+        const exists = await fs.pathExists(path);
+        if (!exists) return false;
+        const stats = await fs.stat(path);
+        return stats.isDirectory();
     }
 
     async getFileExtension(filePath: string): Promise<string | undefined> {
@@ -49,6 +49,20 @@ export class FileSystem implements FileSystemWrapper {
         const exists = await fs.pathExists(folderPath);
         if (!exists) return undefined;
         return path.basename(folderPath) || undefined;
+    }
+
+    async getFileOrFolderSize(path: string): Promise<number | undefined> {
+        const exists = await fs.pathExists(path);
+        if (!exists) return undefined;
+        const stats = await fs.stat(path);
+        return stats.size;
+    }
+
+    async getLastModifiedTime(path: string): Promise<Date | undefined> {
+        const exists = await fs.pathExists(path);
+        if (!exists) return undefined;
+        const stats = await fs.stat(path);
+        return stats.mtime;
     }
 
 

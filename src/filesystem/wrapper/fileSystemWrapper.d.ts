@@ -58,4 +58,20 @@ export interface FileSystemWrapper {
      * @returns {Promise<string | undefined> | string | undefined} The folder name.
      */
     getFolderName(folderPath: string): Promise<string | undefined> | string | undefined;
+
+
+    /**
+     * Retrieves the size of the file or folder at the given path.
+     * @param path The file or folder path to get the size of.
+     * @returns {Promise<number | undefined> | number | undefined} The size in bytes, or undefined if the path does not exist or an error occurs.
+     */
+    getFileOrFolderSize(path: string): Promise<number | undefined> | number | undefined;
+
+
+    /**
+     * Retrieves the last modified time of the file or folder at the given path.
+     * @param path The file or folder path to get the last modified time of.
+     * @returns {Promise<Date | undefined> | Date | undefined} The last modified time as a Date object, or undefined if the path does not exist or an error occurs.
+     */
+    getLastModifiedTime(path: string): Promise<Date | undefined> | Date | undefined;
 }

@@ -5,11 +5,13 @@ import { FolderItemManager } from "../virtualFolderItem/folderItemManager";
 import { VirtualFolderItem } from "../virtualFolderItem/virtualFolderItem";
 import { FolderItem } from "../virtualFolderItem/folderItem";
 import { FileItem } from "../virtualFolderItem/fileItem";
+import { GlobalFolderViewSettings } from "../settings/globalSettings";
 
 export class FolderView extends Pagination<string> {
 
     public currentPath: string | undefined;
     public folderItemManager: FolderItemManager = new FolderItemManager(this);
+    public settings: GlobalFolderViewSettings = new GlobalFolderViewSettings();
 
     constructor(deviceId: string, public filesystem: FileSystem) {
         streamDeck.logger.info(`Creating FolderView for device ${deviceId}`);
@@ -17,6 +19,7 @@ export class FolderView extends Pagination<string> {
         super();
 
         this.on("visibleContentChanged", () => this.updateVirtualFolderItems());
+        this.settings.on("onUpdateSettings", () => this.reloadContent());
     }
 
     destroy(): void {
@@ -39,17 +42,66 @@ export class FolderView extends Pagination<string> {
         this.filesystem.getFolderContent(this.currentPath).then(files => {
             streamDeck.logger.trace(`Loaded folder content, found ${files.length} items.`);
 
-            this.setItems(files);
+            this.sortItems(files).then(sortedFiles => {
+                this.setItems(sortedFiles);
+            });
         });
+    }
+
+    async sortItems(items: string[]): Promise<string[]> {
+        const sortType = this.settings.sortType;
+        const sortDirection = this.settings.sortDirection;
+        const foldersFirst = this.settings.sortFoldersFirst;
+
+
+        const itemData = await Promise.all(items.map(async (item) => {
+            const isDir = await this.filesystem.isPathDirectory(item);
+            const name = await this.filesystem.getFileName(item) || "";
+            const date = await this.filesystem.getLastModifiedTime(item);
+            const size = await this.filesystem.getFileOrFolderSize(item) || 0;
+            return { item, isDir, name, date, size };
+        }));
+
+        itemData.sort((a, b) => {
+            let comparison = 0;
+
+            if (foldersFirst) {
+                if (a.isDir && !b.isDir) {
+                    return -1;
+                } else if (!a.isDir && b.isDir) {
+                    return 1;
+                }
+            }
+
+            switch (sortType) {
+                case "name":
+                    comparison = a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'variant' });
+                    break;
+                case "date":
+                    const aTime = a.date ? a.date.getTime() : 0;
+                    const bTime = b.date ? b.date.getTime() : 0;
+                    comparison = aTime - bTime;
+                    break;
+                case "size":
+                    comparison = a.size - b.size;
+                    break;
+            }
+
+            return comparison * (sortDirection === "asc" ? 1 : -1);
+        });
+
+        return itemData.map(d => d.item);
     }
 
     updateVirtualFolderItems(): void {
         const virtualFolderItems = this.getAllItems().map(path => this.createVirtualFolderItem(path));
-        this.folderItemManager.setVirtualFolderItems(virtualFolderItems);
+        Promise.all(virtualFolderItems).then(vfi => {
+            this.folderItemManager.setVirtualFolderItems(vfi);
+        });
     }
 
-    createVirtualFolderItem(path: string): VirtualFolderItem {
-        if (this.filesystem.isPathDirectory(path)) {
+    async createVirtualFolderItem(path: string): Promise<VirtualFolderItem> {
+        if (await this.filesystem.isPathDirectory(path)) {
             return new FolderItem(path, this, this.filesystem);
         } else {
             return new FileItem(path, this, this.filesystem);
