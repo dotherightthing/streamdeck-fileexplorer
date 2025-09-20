@@ -13,36 +13,23 @@ export class FolderItemManager {
 
 
     addAction(actionId: string, index: number) {
-        streamDeck.logger.info(`A - Old: ${Array.from(this.indices.entries()).join(', ')}`)
-
         this.indices.set(actionId, index);
-
-        streamDeck.logger.info(`A - New: ${Array.from(this.indices.entries()).join(', ')}`)
-        
 
         this.recalculateItemsPerPage();
     }
 
     removeAction(actionId: string) {
-        streamDeck.logger.info(`R - Old: ${Array.from(this.indices.entries()).join(', ')}`)
-
         this.indices.delete(actionId);
         this.virtualFolderItems.delete(actionId);
-
-        streamDeck.logger.info(`R -New: ${Array.from(this.indices.entries()).join(', ')}`)
 
         this.recalculateItemsPerPage();
     }
 
     updateIndex(actionId: string, index: number) {
-        streamDeck.logger.info(`U - Old: ${Array.from(this.indices.entries()).join(', ')}`)
-
         this.indices.delete(actionId);
         this.virtualFolderItems.delete(actionId);
 
         this.addAction(actionId, index);
-
-        streamDeck.logger.info(`U - New: ${Array.from(this.indices.entries()).join(', ')}`)
     }
 
     getVirtualFolderItemForAction(actionId: string): VirtualFolderItem | undefined {

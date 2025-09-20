@@ -18,8 +18,6 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
             folderView.on("updateAction", () => this.updateVirtualFolderItemDisplay(ev.action.id));
             
             if (this.validSettings(ev.payload.settings)) {
-                streamDeck.logger.info('WillAppear: ', ev.action.id, ev.payload.settings.view_index);
-
                 folderView.folderItemManager.addAction(ev.action.id, ev.payload.settings.view_index);
             } else {
                 this.applyEmptyDisplay(ev.action);
@@ -29,8 +27,6 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
     override onWillDisappear(ev: WillDisappearEvent<FolderItemViewSettings>): Promise<void> | void {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
-
-        streamDeck.logger.info('WillDisappear: ', ev.action.id);
 
         if (folderView) {
             folderView.folderItemManager.removeAction(ev.action.id);
@@ -42,12 +38,8 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
         if (folderView) {
             if (this.validSettings(ev.payload.settings)) {
-                streamDeck.logger.info('DidReceiveSettings: ', ev.action.id, ev.payload.settings.view_index);
-
                 folderView.folderItemManager.updateIndex(ev.action.id, ev.payload.settings.view_index);
             } else {
-                streamDeck.logger.info('DidReceiveSettings (invalid): ', ev.action.id, ev.payload.settings.view_index);
-
                 folderView.folderItemManager.removeAction(ev.action.id);
 
                 if (this.validAction(ev.action)) {
