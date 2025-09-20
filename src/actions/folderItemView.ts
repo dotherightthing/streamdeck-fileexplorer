@@ -2,6 +2,7 @@ import streamDeck, { action, ActionContext, DialAction, DidReceiveSettingsEvent,
 import { FolderItemViewSettings } from "../types/actions/settings/folderItemViewSettings";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { FolderView } from "../filesystem/streamdeck/devices/folderView";
+import { VirtualFolderItem } from "../filesystem/streamdeck/virtualFolderItem/virtualFolderItem";
 
 
 /**
@@ -11,96 +12,103 @@ import { FolderView } from "../filesystem/streamdeck/devices/folderView";
 export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
 
-
     override onWillAppear(ev: WillAppearEvent<FolderItemViewSettings>): Promise<void> | void {
-        if (!this.isValidAction(ev.action)) return;
+        const folderView = this.getFolderView(ev.action.id);
+        if (folderView && this.validAction(ev.action)) {
+            folderView.on("updateAction", () => this.updateVirtualFolderItemDisplay(ev.action.id));
+            
+            if (this.validSettings(ev.payload.settings)) {
+                streamDeck.logger.info('WillAppear: ', ev.action.id, ev.payload.settings.view_index);
 
-        this.registerItemDisplayAction(ev.action);
+                folderView.folderItemManager.addAction(ev.action.id, ev.payload.settings.view_index);
+            } else {
+                this.applyEmptyDisplay(ev.action);
+            }
+        }
     }
 
     override onWillDisappear(ev: WillDisappearEvent<FolderItemViewSettings>): Promise<void> | void {
-        this.unregisterItemDisplayAction(ev.action);
+        const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
+
+        streamDeck.logger.info('WillDisappear: ', ev.action.id);
+
+        if (folderView) {
+            folderView.folderItemManager.removeAction(ev.action.id);
+        }
     }
 
     override onDidReceiveSettings(ev: DidReceiveSettingsEvent<FolderItemViewSettings>): Promise<void> | void {
-        if (!this.isValidAction(ev.action)) return;
+        const folderView = this.getFolderView(ev.action.id);
 
-        this.updateActionDisplay(ev.action, ev.payload.settings);
+        if (folderView) {
+            if (this.validSettings(ev.payload.settings)) {
+                streamDeck.logger.info('DidReceiveSettings: ', ev.action.id, ev.payload.settings.view_index);
+
+                folderView.folderItemManager.updateIndex(ev.action.id, ev.payload.settings.view_index);
+            } else {
+                streamDeck.logger.info('DidReceiveSettings (invalid): ', ev.action.id, ev.payload.settings.view_index);
+
+                folderView.folderItemManager.removeAction(ev.action.id);
+
+                if (this.validAction(ev.action)) {
+                    this.applyEmptyDisplay(ev.action);
+                }
+            }
+        }
     }
 
-    isValidAction(action: KeyAction<FolderItemViewSettings> | DialAction<FolderItemViewSettings>): action is KeyAction<FolderItemViewSettings> {
-        return action.isKey() && !action.isInMultiAction();
-    }
+    getFolderView(actionId: string): FolderView | undefined {
+        const deviceId = this.getDeviceIdForAction(actionId);
+        if (!deviceId) return undefined;
 
-    getFolderViewForAction(action: KeyAction<FolderItemViewSettings> | DialAction<FolderItemViewSettings>): FolderView | undefined {
-        return FolderViewManager.instance.getFolderViewForDevice(action.device.id);
-    }
-
-    getFolderViewForDevice(deviceId: string): FolderView | undefined {
         return FolderViewManager.instance.getFolderViewForDevice(deviceId);
     }
 
-    registerItemDisplayAction(action: KeyAction<FolderItemViewSettings>): void {
-        const folderView = this.getFolderViewForAction(action);
+    getDeviceIdForAction(actionId: string): string | undefined {
+        return this.actions.find(a => a.id === actionId)?.device.id;
+    }
+
+    getActionById(actionId: string): DialAction<FolderItemViewSettings> | KeyAction<FolderItemViewSettings> | undefined {
+        return this.actions.find(a => a.id === actionId);
+    }
+
+
+    updateVirtualFolderItemDisplay(actionId: string): void {
+        const folderView = this.getFolderView(actionId);
         if (!folderView) return;
 
-        folderView.on("updateDisplay", () => this.updateDisplayCallback(action.id));
-        this.recalculateValidDisplayCount(action.device.id);
-    
-        if (!folderView.getCurrentFolderPath()) {
-            action.getSettings<FolderItemViewSettings>().then(settings => this.updateActionDisplay(action, settings));
+        const virtualFolderItem = folderView.folderItemManager.getVirtualFolderItemForAction(actionId);
+        const action = this.getActionById(actionId);
+
+        if (this.validAction(action)) {
+            if (!virtualFolderItem) {
+                this.applyEmptyDisplay(action);
+            } else {
+                this.applyVirtualFolderItemDisplay(action, virtualFolderItem);
+            }
         }
     }
 
-    unregisterItemDisplayAction(action: ActionContext): void {
-        const folderView = this.getFolderViewForDevice(action.device.id);
-        if (!folderView) return;
 
-        folderView.off("updateDisplay", () => this.updateDisplayCallback(action.id));
-        this.recalculateValidDisplayCount(action.device.id);
-    }
-
-    updateDisplayCallback(actionId: string): void {
-        const action = streamDeck.actions.getActionById(actionId);
-        if (!action || !this.isValidAction(action)) return;
-
-        action.getSettings<FolderItemViewSettings>().then(settings => this.updateActionDisplay(action, settings))
-    }
-
-    updateActionDisplay(action: KeyAction<FolderItemViewSettings>, settings: FolderItemViewSettings): void {
-        const folderView = this.getFolderViewForAction(action);
-        if (!folderView) return;
-
-        if (!this.actionHasValidSettings(settings) || folderView.getCurrentFolderPath() === undefined) {
-            this.applyEmptyStateDisplay(action);
-            return;
-        }
-
+    async applyVirtualFolderItemDisplay(action: KeyAction<FolderItemViewSettings>, virtualFolderItem: VirtualFolderItem): Promise<void> {
+        action.setTitle(await virtualFolderItem.getName());
+        action.setImage(await virtualFolderItem.getIconPath());
         action.setState(1);
-        action.setTitle(folderView.getItemOnCurrentPage(settings.view_index - 1) ?? "");
     }
 
-    applyEmptyStateDisplay(action: KeyAction<FolderItemViewSettings>): void {
-        action.setState(0);
-        action.setTitle(FolderViewManager.instance.getFolderViewForDevice(action.device.id)?.getItemsPerPage() + "");
+
+    applyEmptyDisplay(action: KeyAction<FolderItemViewSettings>): void {
+        action.setTitle("");
         action.setImage(undefined);
+        action.setState(0);
     }
 
-    actionHasValidSettings(settings: FolderItemViewSettings): boolean {
-        return settings.view_index !== undefined && settings.view_index > 0 && !isNaN(settings.view_index);
+    validSettings(settings: FolderItemViewSettings): boolean {
+        return settings.view_index !== undefined && !isNaN(settings.view_index) && settings.view_index > 0;
     }
 
-    recalculateValidDisplayCount(deviceId: string): void {
-        const folderView = this.getFolderViewForDevice(deviceId);
-        if (!folderView) return;
-
-        const actions = streamDeck.actions.filter(action => action.device.id === deviceId && this.isValidAction(action));
-
-        Promise.all(actions.map(action => action.getSettings<FolderItemViewSettings>())).then(settingsList => {
-            const validSettingsCount = settingsList.filter(settings => this.actionHasValidSettings(settings)).length;
-            folderView.setItemsPerPage(validSettingsCount);
-        });
-
+    validAction(action: KeyAction<FolderItemViewSettings> | DialAction<FolderItemViewSettings> | undefined): action is KeyAction<FolderItemViewSettings> {
+        return action !== undefined && action.isKey() && !action?.isInMultiAction();
     }
 
 

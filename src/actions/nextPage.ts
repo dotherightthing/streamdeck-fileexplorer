@@ -14,7 +14,7 @@ export class NextPage extends SingletonAction<NextPageSettings> {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
-        const settings = ev.payload.settings;
+        const settings = this.getDefaultedSettings(ev.payload.settings);
         switch (settings.nav_type) {
             case "next":
                 folderView.openNextPage();
@@ -34,13 +34,7 @@ export class NextPage extends SingletonAction<NextPageSettings> {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
-        const settings = await ev.action.getSettings();
-        if (settings.nav_type === undefined) {
-            settings.nav_type = "next";
-            await ev.action.setSettings(settings);
-        }
-
-        folderView.on("updateDisplay", () => this.updateDisplayCallback(ev.action.id));
+        folderView.on("visibleContentChanged", () => this.updateDisplayCallback(ev.action.id));
         this.updateDisplayCallback(ev.action.id);
     }
 
@@ -48,7 +42,7 @@ export class NextPage extends SingletonAction<NextPageSettings> {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
-        folderView.off("updateDisplay", () => this.updateDisplayCallback(ev.action.id));
+        folderView.off("visibleContentChanged", () => this.updateDisplayCallback(ev.action.id));
     }
 
     updateDisplayCallback(actionId: string): void {
@@ -59,7 +53,7 @@ export class NextPage extends SingletonAction<NextPageSettings> {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(action.device.id);
         if (!folderView) return;
 
-        if (folderView.isLastPage() || folderView.getCurrentFolderPath() === undefined) {
+        if (folderView.isLastPage() || folderView.currentPath === undefined) {
             action.setState(1);
         } else {
             action.setState(0);
@@ -70,5 +64,12 @@ export class NextPage extends SingletonAction<NextPageSettings> {
         return action.isKey() && !action.isInMultiAction();
     }
 
-}
+    getDefaultedSettings(settings: NextPageSettings): NextPageSettings {
+        return {
+            ...settings,
+            nav_type: settings.nav_type || "next"
+        };
+    }
 
+
+}

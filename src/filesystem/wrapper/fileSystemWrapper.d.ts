@@ -23,8 +23,39 @@ export interface FileSystemWrapper {
     
     /**
      * Retrieves the list of files and folders in the specified directory path.
-     * @param path The directory path to list the contents of.
+     * @param folderPath The directory path to list the contents of.
      * @returns {Promise<string[]>} A promise that resolves to an array of file and folder names in the specified directory.
      */
-    getFolderContent(path: string): Promise<string[]>;
+    getFolderContent(folderPath: string): Promise<string[]>;
+
+
+    /**
+     * Checks if the given path is a directory.
+     * @param path The file or directory path to check.
+     * @returns {Promise<boolean> | boolean} True if the path is a directory, false otherwise.
+     */
+    isPathDirectory(path: string): Promise<boolean> | boolean;
+
+    /**
+     * Retrieves the file extension from the given file path.
+     * @param filePath The file path to extract the extension from.
+     * @returns {Promise<string | undefined> | string | undefined} The file extension (including the dot) or an empty string if the file has no extension.
+     */
+    getFileExtension(filePath: string): Promise<string | undefined> | string | undefined;
+    
+
+    /**
+     * Retrieves the file name (with extension) from the given file path.
+     * @param filePath The file path to extract the file name from.
+     * @returns {Promise<string | undefined> | string | undefined} The file name with extension.
+     */
+    getFileName(filePath: string): Promise<string | undefined> | string | undefined;
+
+
+    /**
+     * Retrieves the folder name from the given folder path.
+     * @param folderPath The folder path to extract the folder name from.
+     * @returns {Promise<string | undefined> | string | undefined} The folder name.
+     */
+    getFolderName(folderPath: string): Promise<string | undefined> | string | undefined;
 }

@@ -9,9 +9,10 @@ export class Pagination<T> extends EventEmitter<PaginationEvents> {
     private currentPage: number = 0;
 
 
-    setItems(items: T[]): void {
+    setItems(items: T[], resetPage: boolean = true): void {
         this.items = items;
-        this.emit("updateContent");
+        this.emit("onUpdateItems");
+        this.setCurrentPage(resetPage ? 0 : this.currentPage);
     }
 
     getAllItems(): T[] {
@@ -52,7 +53,7 @@ export class Pagination<T> extends EventEmitter<PaginationEvents> {
             this.currentPage = newPage;
         }
 
-        this.emit("updateDisplay");
+        this.emit("visibleContentChanged");
     }
 
     getCurrentPage(): number {

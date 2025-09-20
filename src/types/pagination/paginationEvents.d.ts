@@ -1,4 +1,6 @@
+
 export type PaginationEvents = {
-    "updateContent": []
-    "updateDisplay": []
+    "updateAction": []
+    "visibleContentChanged": []
+    "onUpdateItems": []
 }

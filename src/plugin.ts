@@ -9,7 +9,7 @@ import { PrevPage } from "./actions/prevPage";
 
 
 
-streamDeck.logger.setLevel(LogLevel.TRACE);
+streamDeck.logger.setLevel(LogLevel.INFO);
 
 
 const filesystem = new FileSystem();
