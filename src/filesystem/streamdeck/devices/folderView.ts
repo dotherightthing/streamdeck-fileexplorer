@@ -33,6 +33,17 @@ export class FolderView extends Pagination<string> {
         this.reloadContent();
     }
 
+    loadParentFolder(): void {
+        if (!this.currentPath) return;
+
+        const parentPath = this.filesystem.getParentPath(this.currentPath);
+        if (!parentPath) {
+            streamDeck.logger.warn(`No parent path found for current path: ${this.currentPath}`);
+            return;
+        }
+        this.loadFolderPath(parentPath);
+    }
+
     reloadContent(): void {
         if (!this.currentPath) {
             streamDeck.logger.warn("No current path set (=> No active folder view), cannot reload content");

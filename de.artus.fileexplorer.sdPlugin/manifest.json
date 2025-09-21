@@ -20,6 +20,22 @@
 			]
 		},
 		{
+			"Name": "Open Parent Folder",
+			"UUID": "de.artus.fileexplorer.openparentfolder",
+			"Icon": "imgs/actions/openParentFolder/icon",
+			"Tooltip": "Opens the parent folder of the currently viewed folder on the Stream Deck.",
+			"PropertyInspectorPath": "ui/openParentFolder.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/openParentFolder/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
 			"Name": "Folder Item View",
 			"UUID": "de.artus.fileexplorer.folderitemview",
 			"Icon": "imgs/actions/folderItemView/icon",

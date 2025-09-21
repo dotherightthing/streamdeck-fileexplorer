@@ -74,4 +74,12 @@ export interface FileSystemWrapper {
      * @returns {Promise<Date | undefined> | Date | undefined} The last modified time as a Date object, or undefined if the path does not exist or an error occurs.
      */
     getLastModifiedTime(path: string): Promise<Date | undefined> | Date | undefined;
+
+
+    /**
+     * Retrieves the parent path of the given path.
+     * @param path The file or folder path to get the parent path of.
+     * @returns {Promise<string | undefined> | string | undefined} The parent path, or undefined if the path has no parent.
+     */
+    getParentPath(path: string): Promise<string | undefined> | string | undefined;
 }

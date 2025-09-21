@@ -6,6 +6,7 @@ import { FolderItemView } from "./actions/folderItemView";
 import { FolderViewManager } from "./filesystem/streamdeck/devices/deviceManager";
 import { NextPage } from "./actions/nextPage";
 import { PrevPage } from "./actions/prevPage";
+import { OpenParentFolder } from "./actions/openParentFolder";
 
 
 
@@ -16,6 +17,7 @@ const filesystem = new FileSystem();
 
 
 streamDeck.actions.registerAction(new OpenFolder(filesystem));
+streamDeck.actions.registerAction(new OpenParentFolder());
 streamDeck.actions.registerAction(new FolderItemView());
 streamDeck.actions.registerAction(new NextPage());
 streamDeck.actions.registerAction(new PrevPage());

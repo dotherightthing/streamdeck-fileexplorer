@@ -65,6 +65,14 @@ export class FileSystem implements FileSystemWrapper {
         return stats.mtime;
     }
 
+    getParentPath(folderPath: string): string | undefined {
+        const parentPath = path.dirname(folderPath);
+        if (parentPath === folderPath) {
+            return undefined;
+        }
+        return parentPath;
+    }
+
 
 
 }
