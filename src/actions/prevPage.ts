@@ -1,4 +1,4 @@
-import streamDeck, { action, DialAction, KeyAction, KeyDownEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { PrevPageSettings } from "../types/actions/settings/prevPageSetting";
 
@@ -10,27 +10,70 @@ import { PrevPageSettings } from "../types/actions/settings/prevPageSetting";
 export class PrevPage extends SingletonAction<PrevPageSettings> {
 
 
+    longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
+    
+
     override onKeyDown(ev: KeyDownEvent<PrevPageSettings>): Promise<void> | void {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
         const settings = this.getDefaultedSettings(ev.payload.settings);
-        switch (settings.nav_type) {
-            case "prev":
-                folderView.openPreviousPage();
-                break;
+        const actionId = ev.action.id;
 
-            case "first":
-                folderView.openFirstPage();
-                break;
+        if (this.longPressTimeout.has(actionId)) {
+            clearTimeout(this.longPressTimeout.get(actionId))
+        }
 
-            default:
-                break;
+        this.longPressTimeout.set(actionId, setTimeout(() => {
+            switch (settings.longpressaction) {
+                case "prev":
+                    folderView.openPreviousPage()
+                    break;
+                case "first":
+                    folderView.openFirstPage()
+                    break;
+            }
+
+            this.longPressTimeout.delete(actionId);
+        }, settings.longpresstrigger))
+    }
+
+    override onKeyUp(ev: KeyUpEvent<PrevPageSettings>): Promise<void> | void {
+        const actionId = ev.action.id;
+        let isLongPress: boolean = true;
+
+        if (this.longPressTimeout.has(actionId)) {
+            isLongPress = false;
+            clearTimeout(this.longPressTimeout.get(actionId));
+            this.longPressTimeout.delete(actionId);
+        }
+
+        if (!isLongPress) {
+            const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
+            if (!folderView) return;
+
+            const settings = this.getDefaultedSettings(ev.payload.settings);
+
+            switch (settings.clickaction) {
+                case "prev":
+                    folderView.openPreviousPage()
+                    break;
+                case "first":
+                    folderView.openFirstPage()
+                    break;
+            }
         }
     }
 
 
     override async onWillAppear(ev: WillAppearEvent<PrevPageSettings>): Promise<void> {
+        if (!ev.payload.settings.longpresstrigger) {
+            ev.action.setSettings({
+                ...ev.payload.settings,
+                longpresstrigger: 500
+            });
+        }
+
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
@@ -43,6 +86,10 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
         if (!folderView) return;
 
         folderView.off("visibleContentChanged", () => this.updateDisplayCallback(ev.action.id));
+    }
+
+    override onDidReceiveSettings(ev: DidReceiveSettingsEvent<PrevPageSettings>): Promise<void> | void {
+        this.updateTitle(ev.action, ev.payload.settings);
     }
 
     updateDisplayCallback(actionId: string): void {
@@ -58,6 +105,23 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
         } else {
             action.setState(0);
         }
+
+        action.getSettings(); // Triggers onDidReceiveSettings so we dont have to call updateTitle here -> less code duplication
+    }
+
+    updateTitle(action: KeyAction<PrevPageSettings> | DialAction<PrevPageSettings>, settings: PrevPageSettings): void {
+        const folderView = FolderViewManager.instance.getFolderViewForDevice(action.device.id);
+        if (!folderView) return;
+
+        const defaultedSettings = this.getDefaultedSettings(settings);
+
+        if (defaultedSettings.showcurrentpage) {
+            const currentPage = folderView.getCurrentPage();
+            const lastPage = folderView.getTotalPages();
+            action.setTitle(`${currentPage + 1}/${lastPage}`);
+        } else {
+            action.setTitle("");
+        }
     }
 
     isValidAction(action: KeyAction<PrevPageSettings> | DialAction<PrevPageSettings>): action is KeyAction<PrevPageSettings> {
@@ -65,12 +129,15 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
     }
 
 
-    getDefaultedSettings(settings: PrevPageSettings): PrevPageSettings {
-        return {
-            ...settings,
-            nav_type: settings.nav_type || "prev"
-        };
-    }
+    getDefaultedSettings(settings: PrevPageSettings): Required<PrevPageSettings> {
+            return {
+                ...settings,
+                clickaction: settings.clickaction ?? "prev",
+                longpressaction: settings.longpressaction ?? "first",
+                longpresstrigger: settings.longpresstrigger ?? 500,
+                showcurrentpage: settings.showcurrentpage ?? false
+            };
+        }
 
 
 }

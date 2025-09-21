@@ -8,12 +8,58 @@
 
 <body>
 
-    <sdpi-item label="Click Type">
-        <sdpi-radio setting="nav_type" columns="1" default="prev">
+    <sdpi-item label="Title Display">
+        <sdpi-checkbox
+            setting="showcurrentpage"
+            label="Show Current Page as Title?"
+        ></sdpi-checkbox>
+    </sdpi-item>
+
+    <sdpi-item label="Click Action">
+        <sdpi-radio setting="clickaction" columns="2" default="prev">
             <option value="prev">Previous Page</option>
             <option value="first">First Page</option>
         </sdpi-radio>
     </sdpi-item>
+
+    <sdpi-item label="Long Press">
+        <sdpi-radio setting="longpressaction" columns="2" default="first">
+            <option value="prev">Previous Page</option>
+            <option value="first">First Page</option>
+        </sdpi-radio>
+
+        <sdpi-range
+            setting="longpresstrigger"
+            min="0"
+            max="2000"
+            step="50"
+            showlabels>
+            <span slot="min">0ms</span>
+            <span slot="max">2000ms</span>
+        </sdpi-range>
+
+        <p>The long press trigger determines how long the button must be pressed before the long press action is triggered.</p>
+        <p>Currently set to: <b><span id="longpresstriggervalue">0</span> ms</b></p>
+    </sdpi-item>
+
+
+
+    <script>
+
+        function updateLongPressTriggerDisplay() {
+            const rangeElement = document.querySelector('[setting="longpresstrigger"]');
+            const valueDisplay = document.getElementById("longpresstriggervalue");
+            valueDisplay.textContent = rangeElement.value ?? "500";
+        }
+
+        document.querySelector('[setting="longpresstrigger"]')
+            .addEventListener("valuechange", updateLongPressTriggerDisplay);
+
+
+        // Initial call to set the display based on the current value
+        updateLongPressTriggerDisplay();
+
+    </script>
 
 </body>
 

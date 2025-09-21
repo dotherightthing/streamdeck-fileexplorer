@@ -1,3 +1,6 @@
 export type NextPageSettings = {
-    nav_type: "next" | "last";
+    clickaction?: "next" | "last";
+    longpressaction?: "next" | "last";
+    longpresstrigger?: number;
+    showcurrentpage?: boolean;
 }
