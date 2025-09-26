@@ -82,4 +82,11 @@ export interface FileSystemWrapper {
      * @returns {Promise<string | undefined> | string | undefined} The parent path, or undefined if the path has no parent.
      */
     getParentPath(path: string): Promise<string | undefined> | string | undefined;
+
+
+    /**
+     * Opens the file at the specified path with the system's default application for that file type.
+     * @param path The file path to open.
+     */
+    openFileWithDefaultApplication(path: string): void | Promise<void>;
 }

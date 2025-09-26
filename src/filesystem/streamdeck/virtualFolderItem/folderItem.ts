@@ -13,7 +13,7 @@ export class FolderItem extends VirtualFolderItem {
     }
 
     override onClick(clickType: ClickType): void {
-        if (clickType === "single") {
+        if (clickType === "normal") {
             this.folderView.loadFolderPath(this.path);
         } else if (clickType === "long") {
             this.fileSystem.openExplorerWithPath(this.path);

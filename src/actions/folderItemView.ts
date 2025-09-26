@@ -1,8 +1,9 @@
-import streamDeck, { action, ActionContext, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, ActionContext, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
 import { FolderItemViewSettings } from "../types/actions/settings/folderItemViewSettings";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { FolderView } from "../filesystem/streamdeck/devices/folderView";
 import { VirtualFolderItem } from "../filesystem/streamdeck/virtualFolderItem/virtualFolderItem";
+import { FolderItem } from "../filesystem/streamdeck/virtualFolderItem/folderItem";
 
 
 /**
@@ -10,6 +11,54 @@ import { VirtualFolderItem } from "../filesystem/streamdeck/virtualFolderItem/vi
  */
 @action({ UUID: "de.artus.fileexplorer.folderitemview" })
 export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
+
+    longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
+
+
+
+    override onKeyDown(ev: KeyDownEvent<FolderItemViewSettings>): Promise<void> | void {
+        const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
+        if (!folderView) return;
+
+        const actionId = ev.action.id;
+
+        if (this.longPressTimeout.has(actionId)) {
+            clearTimeout(this.longPressTimeout.get(actionId))
+        }
+
+        this.longPressTimeout.set(actionId, setTimeout(() => {
+
+            const virtualFolderItem = folderView.folderItemManager.getVirtualFolderItemForAction(actionId);
+            if (virtualFolderItem) {
+                virtualFolderItem.onClick("long");
+            }
+
+            this.longPressTimeout.delete(actionId);
+        }, 500));
+    }
+
+
+    override onKeyUp(ev: KeyUpEvent<FolderItemViewSettings>): Promise<void> | void {
+        const actionId = ev.action.id;
+        let isLongPress: boolean = true;
+
+        if (this.longPressTimeout.has(actionId)) {
+            isLongPress = false;
+            clearTimeout(this.longPressTimeout.get(actionId));
+            this.longPressTimeout.delete(actionId);
+        }
+
+        if (!isLongPress) {
+            const folderView = this.getFolderView(actionId);
+            if (!folderView) return;
+
+            const virtualFolderItem = folderView.folderItemManager.getVirtualFolderItemForAction(actionId);
+            if (virtualFolderItem) {
+                virtualFolderItem.onClick("normal");
+            }
+        }
+    }
+
 
 
     override onWillAppear(ev: WillAppearEvent<FolderItemViewSettings>): Promise<void> | void {

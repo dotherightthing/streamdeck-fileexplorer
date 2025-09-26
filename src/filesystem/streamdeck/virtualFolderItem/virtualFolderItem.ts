@@ -17,4 +17,4 @@ export abstract class VirtualFolderItem {
 }
 
 
-export type ClickType = "single" | "long";
+export type ClickType = "normal" | "long";

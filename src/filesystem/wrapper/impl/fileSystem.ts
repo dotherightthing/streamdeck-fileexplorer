@@ -73,6 +73,10 @@ export class FileSystem implements FileSystemWrapper {
         return parentPath;
     }
 
+    openFileWithDefaultApplication(filePath: string): void {
+        //TODO: check if this works!
+        spawn("start", ["", filePath], { stdio: "ignore", detached: true }).unref();
+    }
 
 
 }

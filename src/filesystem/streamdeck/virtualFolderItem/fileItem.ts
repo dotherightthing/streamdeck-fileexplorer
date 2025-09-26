@@ -12,7 +12,14 @@ export class FileItem extends VirtualFolderItem {
     }
 
     override onClick(clickType: ClickType): void {
-        // TODO: click action
+        if (clickType === "normal") {
+            this.fileSystem.openFileWithDefaultApplication(this.path);
+        } else if (clickType === "long") {
+            const parentPath = this.fileSystem.getParentPath(this.path);
+            if (parentPath) {
+                this.fileSystem.openExplorerWithPath(parentPath);
+            }
+        }
     }
 
 }
