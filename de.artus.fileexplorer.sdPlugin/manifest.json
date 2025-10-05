@@ -52,7 +52,7 @@
 				},
 				{
 					"Image": "imgs/actions/folderItemView/invisible",
-					"TitleAlignment": "bottom"
+					"TitleAlignment": "middle"
 				}
 			]
 		},

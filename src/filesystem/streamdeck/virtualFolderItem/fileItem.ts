@@ -7,8 +7,16 @@ export class FileItem extends VirtualFolderItem {
         return await this.fileSystem.getFileName(this.path) ?? "Unknown";
     }
 
-    override getIconPath(): string | undefined {
-        return '<svg width="48" height="48" viewBox="0 0 48 48" role="img" aria-labelledby="titleFolder3" xmlns="http://www.w3.org/2000/svg"><title id="titleFolder3">Folder</title><defs><linearGradient id="gFolder" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#FFD36E"/><stop offset="1" stop-color="#FFB24D"/></linearGradient></defs><rect x="4" y="12" width="40" height="28" rx="4" fill="url(#gFolder)"/><path d="M6 12c0-1.1.9-2 2-2h8l4 4h18v2H12l-4-4z" fill="#FFB24D" opacity="0.95"/></svg>';
+    override async getIconPath(): Promise<string | undefined> {
+    
+        const fileType = await this.fileSystem.getFileExtension(this.path)
+        // Supported image types: https://docs.elgato.com/streamdeck/sdk/guides/keys#images
+        const imageTypes = [".svg", ".jpg", ".jpeg", ".png", ".webp"];
+        if (fileType && imageTypes.includes(fileType.toLowerCase())) {
+            return this.path;
+        }
+
+        return undefined;
     }
 
     override onClick(clickType: ClickType): void {

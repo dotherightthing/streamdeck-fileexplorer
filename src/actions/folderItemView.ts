@@ -3,7 +3,9 @@ import { FolderItemViewSettings } from "../types/actions/settings/folderItemView
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { FolderView } from "../filesystem/streamdeck/devices/folderView";
 import { VirtualFolderItem } from "../filesystem/streamdeck/virtualFolderItem/virtualFolderItem";
-import { FolderItem } from "../filesystem/streamdeck/virtualFolderItem/folderItem";
+import { registerWindow, SVG } from "@svgdotjs/svg.js"
+import { createSVGWindow } from "svgdom";
+import { createSvgImage, getFolderItemImage } from "../utils/svgFactoty";
 
 
 /**
@@ -132,8 +134,10 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
 
     async applyVirtualFolderItemDisplay(action: KeyAction<FolderItemViewSettings>, virtualFolderItem: VirtualFolderItem): Promise<void> {
-        action.setTitle(await virtualFolderItem.getName());
-        action.setImage(await virtualFolderItem.getIconPath());
+        const svgImage = await getFolderItemImage(virtualFolderItem);
+        action.setImage(svgImage);
+
+        action.setTitle("");
         action.setState(1);
     }
 
@@ -152,7 +156,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         return action !== undefined && action.isKey() && !action?.isInMultiAction();
     }
 
-
+    
 
 
 }

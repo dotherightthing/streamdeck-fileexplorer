@@ -27,4 +27,3 @@ streamDeck.connect().then(() => {
 
     FolderViewManager.init(filesystem);
 });
-
