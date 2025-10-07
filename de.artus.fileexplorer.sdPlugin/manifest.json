@@ -97,6 +97,27 @@
 					"TitleAlignment": "bottom"
 				}
 			]
+		},
+		{
+			"Name": "Sort Content",
+			"UUID": "de.artus.fileexplorer.sortcontent",
+			"Icon": "imgs/actions/sortContent/icon",
+			"Tooltip": "Sort the content of the currently opened folder on the Stream Deck.",
+			"PropertyInspectorPath": "ui/sortContent.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"DisableAutomaticStates": true,
+			"States": [
+				{
+					"Image": "imgs/actions/sortContent/key-asc",
+					"TitleAlignment": "bottom"
+				},
+				{
+					"Image": "imgs/actions/sortContent/key-desc",
+					"TitleAlignment": "bottom"
+				}
+			]
 		}
 	],
 	"Category": "File Explorer",

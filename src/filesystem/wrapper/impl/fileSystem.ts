@@ -51,6 +51,7 @@ export class FileSystem implements FileSystemWrapper {
         return path.basename(folderPath) || undefined;
     }
 
+    // TODO: Only works for files, not folders!
     async getFileOrFolderSize(path: string): Promise<number | undefined> {
         const exists = await fs.pathExists(path);
         if (!exists) return undefined;

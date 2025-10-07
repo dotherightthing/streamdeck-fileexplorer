@@ -11,7 +11,7 @@ export class FolderView extends Pagination<string> {
 
     public currentPath: string | undefined;
     public folderItemManager: FolderItemManager = new FolderItemManager(this);
-    public settings: GlobalFolderViewSettings = new GlobalFolderViewSettings();
+    public settings: GlobalFolderViewSettings = GlobalFolderViewSettings.instance;
 
     constructor(deviceId: string, public filesystem: FileSystem) {
         streamDeck.logger.info(`Creating FolderView for device ${deviceId}`);
@@ -91,14 +91,18 @@ export class FolderView extends Pagination<string> {
                 case "date":
                     const aTime = a.date ? a.date.getTime() : 0;
                     const bTime = b.date ? b.date.getTime() : 0;
-                    comparison = aTime - bTime;
+                    comparison = bTime - aTime; // inverted to have newest first in "asc"
                     break;
                 case "size":
                     comparison = a.size - b.size;
                     break;
             }
 
-            return comparison * (sortDirection === "asc" ? 1 : -1);
+            const r = comparison * (sortDirection === "asc" ? 1 : -1);
+            if (r === 0) {
+                return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'variant' });
+            }
+            return r;
         });
 
         return itemData.map(d => d.item);

@@ -4,6 +4,7 @@ import { VirtualFolderItem } from "../filesystem/streamdeck/virtualFolderItem/vi
 import { FolderItem } from "../filesystem/streamdeck/virtualFolderItem/folderItem";
 import streamDeck from "@elgato/streamdeck";
 import { splitTextEfficiently } from "./textsplitting";
+import { GlobalFolderViewSettings } from "../filesystem/streamdeck/settings/globalSettings";
 
 
 const FOLDER_ICON_SVG = `<path fill="none" d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>`;
@@ -30,7 +31,14 @@ export function createSvgImage(width: number, height: number, svgCreator: (canva
 
 export async function getFolderItemImage(item: VirtualFolderItem): Promise<string> {
 
-    const name = await item.getName();
+    let name = await item.getName();
+    if (!GlobalFolderViewSettings.instance.showFileExtensions) {
+        const fileType = await item.fileSystem.getFileExtension(item.path);
+        if (fileType && name.toLowerCase().endsWith(fileType.toLowerCase())) {
+            name = name.slice(0, name.length - fileType.length);
+        }
+    }
+
     const iconPath = await item.getIconPath();
 
     const isFolder = item instanceof FolderItem;
@@ -74,11 +82,7 @@ export async function getFolderItemImage(item: VirtualFolderItem): Promise<strin
             }
         
         }
-       
-
-
-        streamDeck.logger.info("Icon Svg: " + canvas.svg());
-
+    
         return canvas.svg();
     });
 

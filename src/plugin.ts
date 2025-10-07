@@ -7,6 +7,7 @@ import { FolderViewManager } from "./filesystem/streamdeck/devices/deviceManager
 import { NextPage } from "./actions/nextPage";
 import { PrevPage } from "./actions/prevPage";
 import { OpenParentFolder } from "./actions/openParentFolder";
+import { SortContent } from "./actions/sortContent";
 
 
 
@@ -21,6 +22,7 @@ streamDeck.actions.registerAction(new OpenParentFolder());
 streamDeck.actions.registerAction(new FolderItemView());
 streamDeck.actions.registerAction(new NextPage());
 streamDeck.actions.registerAction(new PrevPage());
+streamDeck.actions.registerAction(new SortContent());
 
 streamDeck.connect().then(() => {
     streamDeck.logger.info("Connected to StreamDeck");

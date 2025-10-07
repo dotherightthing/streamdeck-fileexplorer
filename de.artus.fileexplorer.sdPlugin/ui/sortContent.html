@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="utf-8" />
+    <script src="sdpi-components.js"></script>
+</head>
+
+<body>
+
+    <sdpi-item label="Directories">
+        <sdpi-checkbox setting="sortFoldersFirst" label="Show Folders First"></sdpi-checkbox>
+    </sdpi-item>
+
+    <sdpi-item label="Click Action">
+        <sdpi-radio setting="switchSetting" columns="1">
+            <option value="type">Change Type (Name/Date/Size)</option>
+            <option value="direction">Change Direction (Asc/Desc)</option>
+        </sdpi-radio>
+    </sdpi-item>
+
+    <sdpi-item label="Long Press">
+        <sdpi-checkbox default="true" setting="longPressToggle" label="Toggle above (ClickAction) on Long Press"></sdpi-checkbox>
+    </sdpi-item>
+
+    <sdpi-item label="Title">
+        <sdpi-checkbox setting="updateTitleToType" label="Update Title to Sort Type"></sdpi-checkbox>
+    </sdpi-item>
+
+</body>
+
+</html>

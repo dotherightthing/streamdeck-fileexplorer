@@ -16,5 +16,4 @@ export class GlobalFolderViewSettings extends EventEmitter<FVSettingsEvents> {
 
 
 
-
 }
