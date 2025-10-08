@@ -7,6 +7,9 @@ Enhance your Stream Deck with the **File Explorer Plugin**, a powerful and easy 
 
 **Enjoying the plugin?** ⭐ Star the repo and share your feedback to make it even better!
 
+<a href="https://marketplace.elgato.com/product/fileexplorer-fcf4f735-1737-440c-a829-4e51578f58eb" height="20"><img alt="Get it on Marketplace Badge" src="https://github.com/user-attachments/assets/0ee202b1-49f0-40f4-b3f6-ad572c5f346d"></a>
+
+
 # ✨ Features
 > [!TIP]
 > Feel free to contribute, report issues, or suggest new features whenever you notice something missing.
@@ -30,11 +33,13 @@ Enhance your Stream Deck with the **File Explorer Plugin**, a powerful and easy 
 
 
 
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
 
 
 
 
 
 
-<a href="https://marketplace.elgato.com/product/fileexplorer-fcf4f735-1737-440c-a829-4e51578f58eb" height="20"><img alt="Get it on Marketplace Badge" src="https://github.com/user-attachments/assets/0ee202b1-49f0-40f4-b3f6-ad572c5f346d"></a>
 
