@@ -42,14 +42,17 @@ class Analytics {
     
     async startup(): Promise<void> {
         streamDeck.logger.info("Starting analytics");
-        if (this.isDevEnvironment()) {
-            streamDeck.logger.info("Dev environment detected, analytics disabled");
-            return;
-        }
 
         const initialLaunch = await isInitialLaunch();
         const { POSTHOG_USER_ID } = await streamDeck.settings.getGlobalSettings<GlobalSettings>();
-        this.userId = POSTHOG_USER_ID || crypto.randomUUID();
+
+        if (this.isDevEnvironment()) {
+            streamDeck.logger.info("Dev environment detected, using dev-user as userId!");
+            this.userId = "dev-user";
+        } else {
+            this.userId = POSTHOG_USER_ID || crypto.randomUUID();
+        }
+        
 
         if (initialLaunch) {
             streamDeck.logger.info("Initial launch detected, sending analytics");
