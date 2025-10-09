@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
 	"Name": "File Explorer",
 	"Version": "0.1.0.0",
 	"Author": "Arthur Paucke",
@@ -125,9 +126,9 @@
 	"CodePath": "bin/plugin.js",
 	"Description": "Open folders and view their content all on the Stream Deck. Navigate through them and open files with a single click. Also images get displayed directly on the Stream Deck. More features: Open parent folder, scroll through pages, show page info, various click actions.",
 	"Icon": "imgs/plugin/marketplace",
-	"SDKVersion": 2,
+	"SDKVersion": 3,
 	"Software": {
-		"MinimumVersion": "6.4"
+		"MinimumVersion": "6.9"
 	},
 	"OS": [
 		{

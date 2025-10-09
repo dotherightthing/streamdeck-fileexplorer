@@ -8,24 +8,47 @@ import { NextPage } from "./actions/nextPage";
 import { PrevPage } from "./actions/prevPage";
 import { OpenParentFolder } from "./actions/openParentFolder";
 import { SortContent } from "./actions/sortContent";
-
+import { Analytics, createAnalytics } from "./analytics/analytics";
 
 
 streamDeck.logger.setLevel(LogLevel.INFO);
 
 
-const filesystem = new FileSystem();
 
+function registerActions(filesystem: FileSystem): void {
+    streamDeck.logger.info("Registering actions");
 
-streamDeck.actions.registerAction(new OpenFolder(filesystem));
-streamDeck.actions.registerAction(new OpenParentFolder());
-streamDeck.actions.registerAction(new FolderItemView());
-streamDeck.actions.registerAction(new NextPage());
-streamDeck.actions.registerAction(new PrevPage());
-streamDeck.actions.registerAction(new SortContent());
+    streamDeck.actions.registerAction(new OpenFolder(filesystem));
+    streamDeck.actions.registerAction(new OpenParentFolder());
+    streamDeck.actions.registerAction(new FolderItemView());
+    streamDeck.actions.registerAction(new NextPage());
+    streamDeck.actions.registerAction(new PrevPage());
+    streamDeck.actions.registerAction(new SortContent());
+}
 
-streamDeck.connect().then(() => {
+async function startup(): Promise<void> {
+    const filesystem = new FileSystem();
+    registerActions(filesystem);
+
+    await streamDeck.connect();
     streamDeck.logger.info("Connected to StreamDeck");
 
+    await createAnalytics();
+    await Analytics.instance.startup();
+
     FolderViewManager.init(filesystem);
-});
+
+    streamDeck.system.onApplicationDidTerminate(shutdown);
+
+    streamDeck.logger.info("Setup complete");
+}
+
+async function shutdown(): Promise<void> {
+    FolderViewManager.instance.clear();
+
+    streamDeck.logger.info("StreamDeck disconnected");
+    await Analytics.instance.shutdown();
+}
+
+
+startup();
