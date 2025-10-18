@@ -8,12 +8,22 @@
 
 <body>
 
+    <!-- TODO: Use folder picker when implemented
     <sdpi-item label="Folder">
         <sdpi-delegate
             setting="folderpath"
             invoke="openfolder"
             label="Open Folder"
         ></sdpi-delegate>
+    </sdpi-item>
+    -->
+
+    <sdpi-item label="Folder Path">
+        <sdpi-textfield
+            required
+            setting="folderpath"
+            placeholder="Enter folder path"
+        ></sdpi-textfield>
     </sdpi-item>
 
     <sdpi-item label="Click Action">

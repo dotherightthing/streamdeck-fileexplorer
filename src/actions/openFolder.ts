@@ -24,24 +24,24 @@ export class OpenFolder extends SingletonAction<OpenFolderSettings> {
 
 			switch (settings.openaction) {
 				case "streamdeck":
-					streamDeck.logger.trace(`Opening folder (${settings.folderpath}) on StreamDeck`);
+					streamDeck.logger.info(`Opening folder (${settings.folderpath}) on StreamDeck`);
 
 					FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id)?.loadFolderPath(settings.folderpath);
 					break;
 
 				case "nativeexplorer":
-					streamDeck.logger.trace(`Opening folder (${settings.folderpath}) in native explorer`);
+					streamDeck.logger.info(`Opening folder (${settings.folderpath}) in native explorer`);
 					this.filesystem.openExplorerWithPath(settings.folderpath);
 					break;
 
 				case "cmd":
-					streamDeck.logger.trace(`Opening folder (${settings.folderpath}) in cmd`);
+					streamDeck.logger.info(`Opening folder (${settings.folderpath}) in cmd`);
 					this.filesystem.startCmdWithPath(settings.folderpath);
 					break;
 
 				case "custom":
 					if (settings.customcommand) {
-						streamDeck.logger.trace(`Opening folder (${settings.folderpath}) with custom command: ${settings.customcommand}`);
+						streamDeck.logger.info(`Opening folder (${settings.folderpath}) with custom command: ${settings.customcommand}`);
 
 						// TODO: Fix for os-specific path separators
 						const command = settings.customcommand.trim().replaceAll("{path}", `"${settings.folderpath.replaceAll("/", "\\")}"`);

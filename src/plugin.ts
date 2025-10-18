@@ -30,13 +30,13 @@ async function startup(): Promise<void> {
     const filesystem = new FileSystem();
     registerActions(filesystem);
 
+    FolderViewManager.init(filesystem);
+
     await streamDeck.connect();
     streamDeck.logger.info("Connected to StreamDeck");
 
     await createAnalytics();
     await Analytics.instance.startup();
-
-    FolderViewManager.init(filesystem);
 
     streamDeck.system.onApplicationDidTerminate(shutdown);
 

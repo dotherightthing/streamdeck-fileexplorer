@@ -5,10 +5,11 @@ import { spawn } from "cross-spawn";
 
 export class FileSystem implements FileSystemWrapper {
 
+    // TODO: Use real dialog
     openFolderPickerDialog(): Promise<string | null> {
         return new Promise((resolve) => {
             setTimeout(() => {
-                resolve("C:/Users/Arthur/Desktop/coding/minecraft");
+                resolve("WORK IN PROGRESS");
             }, 1000);
         });
     }
