@@ -1,11 +1,10 @@
-import streamDeck, { action, ActionContext, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
+import { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
 import { FolderItemViewSettings } from "../types/actions/settings/folderItemViewSettings";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { FolderView } from "../filesystem/streamdeck/devices/folderView";
 import { VirtualFolderItem } from "../filesystem/streamdeck/virtualFolderItem/virtualFolderItem";
-import { registerWindow, SVG } from "@svgdotjs/svg.js"
-import { createSVGWindow } from "svgdom";
-import { createSvgImage, getFolderItemImage } from "../utils/svgFactoty";
+import { getFolderItemImage } from "../utils/svgFactoty";
+import { Analytics } from "../analytics/analytics";
 
 
 /**
@@ -33,6 +32,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
             const virtualFolderItem = folderView.folderItemManager.getVirtualFolderItemForAction(actionId);
             if (virtualFolderItem) {
                 virtualFolderItem.onClick("long");
+                this.sendClickAnalytics("long");
             }
 
             this.longPressTimeout.delete(actionId);
@@ -57,6 +57,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
             const virtualFolderItem = folderView.folderItemManager.getVirtualFolderItemForAction(actionId);
             if (virtualFolderItem) {
                 virtualFolderItem.onClick("normal");
+                this.sendClickAnalytics("normal");
             }
         }
     }
@@ -156,6 +157,15 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         return action !== undefined && action.isKey() && !action?.isInMultiAction();
     }
 
+
+    sendClickAnalytics(actionType: "normal" | "long"): void {
+        Analytics.instance.sendEvent({
+            event: "folder_item_clicked",
+            properties: {
+                click_type: actionType
+            }
+        })
+    }
     
 
 

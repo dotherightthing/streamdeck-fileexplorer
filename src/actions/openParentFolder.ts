@@ -1,6 +1,7 @@
 import { action, KeyDownEvent, SingletonAction } from "@elgato/streamdeck";
 import { OpenParentFolderSettings } from "../types/actions/settings/openParentFolderSettings";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
+import { Analytics } from "../analytics/analytics";
 
 /**
  * This StreamDeck action allows to open the parent folder of the currently viewed folder on the Stream Deck.
@@ -15,6 +16,9 @@ export class OpenParentFolder extends SingletonAction<OpenParentFolderSettings> 
         if (!folderView.currentPath) return;
 
         folderView.loadParentFolder();
+        Analytics.instance.sendEvent({
+            event: "open_parent_folder"
+        });
     }
 
 
