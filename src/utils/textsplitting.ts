@@ -21,12 +21,31 @@ export function splitTextEfficiently(text: string): { fontSize: number, lines: s
     const fontSize = findBestFontSize(text);
     const maxLineWidth = getMaxLineWidth(fontSize);
     const lines: string[] = wrapAnsi(text, maxLineWidth, { hard: true }).split("\n");
+    
+    const maxLines = getMaxLineCount(fontSize);
+    const truncatedLines = turncateLines(lines, maxLines, maxLineWidth);
+    
     return {
         fontSize,
-        lines
+        lines: truncatedLines
     };
 }
 
+
+
+function turncateLines(lines: string[], maxLines: number, maxLineWidth: number): string[] {
+    if (lines.length <= maxLines) return lines;
+    const truncated = lines.slice(0, maxLines);
+    if (truncated.length !== lines.length) {
+        let lastLine = truncated[truncated.length - 1];
+        if (lastLine.length > maxLineWidth - 3) {
+            lastLine = lastLine.slice(0, maxLineWidth - 3);
+        }
+        lastLine += "...";
+        truncated[truncated.length - 1] = lastLine;
+    }
+    return truncated;
+}
 
 
 function findBestFontSize(text: string, fontSize: number = 20): number {
