@@ -2,7 +2,14 @@ import fs from "fs-extra";
 import path from "path";
 import { FileSystemWrapper } from "../fileSystemWrapper";
 import { spawn } from "cross-spawn";
+import open from "open";
+import streamDeck from "@elgato/streamdeck";
 
+
+const isWindows = process.platform === "win32";
+const isMac = process.platform === "darwin";
+
+// TODO: Test all methods on MAC!
 export class FileSystem implements FileSystemWrapper {
 
     // TODO: Use real dialog
@@ -15,11 +22,17 @@ export class FileSystem implements FileSystemWrapper {
     }
 
     openExplorerWithPath(path: string): void {
-        spawn("start", ["", path], { stdio: "ignore", detached: true }).unref();
+        open(path).catch((err) => {
+            streamDeck.logger.error(`Failed to open explorer with path ${path}: ${err}`);
+        });
     }
 
     startCmdWithPath(path: string): void {
-        spawn("cmd", ["/k", "", "cd", "", path], { stdio: "ignore", detached: true, shell: true }).unref();
+        if (isWindows) {
+            spawn("cmd.exe", ["/k"], { cwd: path, detached: true, stdio: "ignore", shell: true }).unref();
+        } else if (isMac) {
+            spawn("open", ["-a", "Terminal", path], { stdio: "ignore", detached: true }).unref();
+        }
     }
 
     async getFolderContent(folderPath: string): Promise<string[]> {
@@ -76,8 +89,18 @@ export class FileSystem implements FileSystemWrapper {
     }
 
     openFileWithDefaultApplication(filePath: string): void {
-        //TODO: check if this works!
-        spawn("start", ["", filePath], { stdio: "ignore", detached: true }).unref();
+        // TODO: sometimes doesn't work. Maybe because of spaces in path?!
+        open(filePath).catch((err) => {
+            streamDeck.logger.error(`Failed to open file ${filePath}: ${err}`);
+        });
+    }
+
+    revealFileInExplorer(filePath: string): void {
+        if (isWindows) {
+            spawn("explorer", ["/select,", filePath], { detached: true, stdio: "ignore" }).unref();
+        } else if (isMac) {
+            spawn("open", ["-R", filePath], { detached: true, stdio: "ignore" }).unref();
+        }
     }
 
 

@@ -23,10 +23,7 @@ export class FileItem extends VirtualFolderItem {
         if (clickType === "normal") {
             this.fileSystem.openFileWithDefaultApplication(this.path);
         } else if (clickType === "long") {
-            const parentPath = this.fileSystem.getParentPath(this.path);
-            if (parentPath) {
-                this.fileSystem.openExplorerWithPath(parentPath);
-            }
+            this.fileSystem.revealFileInExplorer(this.path);
         }
     }
 

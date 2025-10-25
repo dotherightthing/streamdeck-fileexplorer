@@ -89,4 +89,10 @@ export interface FileSystemWrapper {
      * @param path The file path to open.
      */
     openFileWithDefaultApplication(path: string): void | Promise<void>;
+
+    /**
+     * Reveals the file at the specified path in the native file explorer.
+     * @param filePath The file path to reveal.
+     */
+    revealFileInExplorer(filePath: string): void | Promise<void>;
 }
