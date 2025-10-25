@@ -54,7 +54,7 @@ export class OpenFolder extends SingletonAction<OpenFolderSettings> {
 						streamDeck.logger.info(`Opening folder (${settings.folderpath}) with custom command: ${settings.customcommand}`);
 
 						const path = settings.folderpath;
-						const command = settings.customcommand.trim().replaceAll("{path}", path);
+						const command = settings.customcommand.trim().replaceAll("{path}", `"${path}"`);
 
 						const parts = argv(command);
 						const cmd = parts.shift()!;

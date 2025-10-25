@@ -64,6 +64,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
 
 
+    // TODO: on appear -> very long load times to display content!
     override onWillAppear(ev: WillAppearEvent<FolderItemViewSettings>): Promise<void> | void {
         const folderView = this.getFolderView(ev.action.id);
         if (folderView && this.validAction(ev.action)) {
