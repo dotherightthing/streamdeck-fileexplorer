@@ -2,6 +2,7 @@ import streamDeck, { action, KeyDownEvent, SendToPluginEvent, SingletonAction } 
 import { OpenFolderSettings } from "../types/actions/settings/openFolderSettings";
 import { FileSystem } from "../filesystem/wrapper/impl/fileSystem";
 import spawn from "cross-spawn";
+import argv from "string-argv";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { Analytics } from "../analytics/analytics";
 import { open } from "fs";
@@ -52,13 +53,14 @@ export class OpenFolder extends SingletonAction<OpenFolderSettings> {
 					if (settings.customcommand) {
 						streamDeck.logger.info(`Opening folder (${settings.folderpath}) with custom command: ${settings.customcommand}`);
 
-						// TODO: Fix for os-specific path separators
-						const command = settings.customcommand.trim().replaceAll("{path}", `"${settings.folderpath.replaceAll("/", "\\")}"`);
-						const parts = command.split(" ");
-						const cmd = parts[0];
-						const args = parts.slice(1);
+						const path = settings.folderpath;
+						const command = settings.customcommand.trim().replaceAll("{path}", path);
 
-						spawn(cmd, args, { stdio: "ignore", shell: true, detached: true }).unref();
+						const parts = argv(command);
+						const cmd = parts.shift()!;
+						const args = parts;
+
+						spawn(cmd, args, { stdio: "ignore", shell: false, detached: true }).unref();
 					}
 					break;
 
