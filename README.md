@@ -117,8 +117,42 @@ You can put as many actions as you want on your StreamDeck page. Don't forget to
     - **Folder** -> The folder will be opened in the native file explorer.
 
 
-<br><br><br>
+<br><br>
 
+
+## 🔧 For Developers
+
+### Installation (Local Development)
+1. Clone this repository:
+    ```bash
+    git clone https://github.com/ArtusLama/streamdeck-fileexplorer.git
+    ```
+2. Uninstall your current FileExplorer Plugin _(only if already installed)_
+   - Open the Stream Deck `Settings`
+   - Go to the `Plugins` tab
+   - `Right-Click` the FileExplorer Plugin
+   - Click `Uninstall`
+3. Link the local plugin to the StreamDeck:
+   - Install the StreamDeck CLI
+     ```bash
+     npm install -g @elgato/cli
+     ```
+   - Navigate into the repository directory and link the plugin:
+     ```bash
+     streamdeck link de.artus.fileexplorer.sdPlugin
+      ```
+4. Start the plugin:
+   Run the watcher to automatically rebuild on file changes:
+   ```bash
+   npm run watch
+    ```
+
+If things don’t work as expected, please refer to the official [StreamDeck Plugin Documentation](https://docs.elgato.com/streamdeck/sdk/introduction/getting-started).
+
+
+
+
+<br><br><br>
 
 ## 📜 License
 
