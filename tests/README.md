@@ -59,72 +59,132 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 ### 1A - No Spaces - EXPLORER
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1A`
-* On click: Open in Explorer
-* On click: Automatically open profile (ignored)
+* Click Action: Open in native file explorer
 * Expectation: Finder opens at correct location
 
-### 1B - No Spaces - PROFILE
+### 1B - No Spaces - STREAMDECK
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1B`
-* On click: Open as Profile
-* On click: Automatically open profile
+* Click Action: Open on StreamDeck
+* Automatically open profile
 * Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+
+### 1C - No Spaces - TERMINAL
+
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1C`
+* Click Action: Open in Terminal / CMD
+* Expectation: TODO
+
+### 1D - No Spaces - CUSTOM CMD
+
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1D`
+* Click Action: Run custom command (advanced)
+* Shell command: `echo {path} && ls {path}`
+* Expectation: Terminal displays directory path and its contents
 
 ### 2A - No Spaces Quoted - EXPLORER
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2A"`
-* On click: Open in Explorer
-* On click: Automatically open profile (ignored)
+* Click Action: Open in native file explorer
 * Expectation: Finder opens at correct location
 
-### 2B - No Spaces Quoted - PROFILE
+### 2B - No Spaces Quoted - STREAMDECK
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2B"`
-* On click: Open as Profile
-* On click: Automatically open profile
+* Click Action: Open on StreamDeck
+* Automatically open profile
 * Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+
+### 2C - No Spaces Quoted - TERMINAL
+
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2C"`
+* Click Action: Open in Terminal / CMD
+* Expectation: TODO
+
+### 2D - No Spaces Quoted - CUSTOM CMD
+
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2D"`
+* Click Action: Run custom command (advanced)
+* Shell command: `echo {path} && ls {path}`
+* Expectation: Terminal displays directory path and its contents
 
 ### 3A - Spaces Escaped - EXPLORER
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3A\ Spaces`
-* On click: Open in Explorer
-* On click: Automatically open profile (ignored)
+* Click Action: Open in native file explorer
 * Expectation: Finder opens at correct location
 
-### 3B - Spaces Escaped - PROFILE
+### 3B - Spaces Escaped - STREAMDECK
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3B\ Spaces`
-* On click: Open as Profile
-* On click: Automatically open profile
+* Click Action: Open on StreamDeck
+* Automatically open profile
 * Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+
+### 3C - Spaces Escaped - TERMINAL
+
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3C\ Spaces`
+* Click Action: Open in Terminal / CMD
+* Expectation: TODO
+
+### 3D - Spaces Escaped - CUSTOM CMD
+
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3D\ Spaces`
+* Click Action: Run custom command (advanced)
+* Shell command: `echo {path} && ls {path}`
+* Expectation: Terminal displays directory path and its contents
 
 ### 4A - Spaces Quoted - EXPLORER
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4A\ Spaces"`
-* On click: Open in Explorer
-* On click: Automatically open profile (ignored)
+* Click Action: Open in native file explorer
 * Expectation: Finder opens at correct location
 
-### 4B - Spaces Quoted - PROFILE
+### 4B - Spaces Quoted - STREAMDECK
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4B\ Spaces"`
-* On click: Open as Profile
-* On click: Automatically open profile
+* Click Action: Open on StreamDeck
+* Automatically open profile
 * Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+
+### 4C - Spaces Quoted - TERMINAL
+
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4C\ Spaces"`
+* Click Action: Open in Terminal / CMD
+* Expectation: TODO
+
+### 4D - Spaces Quoted - CUSTOM CMD
+
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4D\ Spaces"`
+* Click Action: Run custom command (advanced)
+* Shell command: `echo {path} && ls {path}`
+* Expectation: Terminal displays directory path and its contents
 
 ### 5A - Spaces Part Quoted - EXPLORER
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5A Spaces"`
-* On click: Open in Explorer
-* On click: Automatically open profile (ignored)
+* Click Action: Open in native file explorer
 * Expectation: Finder opens at correct location
 
-### 5B - Spaces Part Quoted - PROFILE
+### 5B - Spaces Part Quoted - STREAMDECK
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5B Spaces"`
-* On click: Open as Profile
-* On click: Automatically open profile
+* Click Action: Open on StreamDeck
+* Automatically open profile
 * Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+
+### 5C - Spaces Part Quoted - TERMINAL
+
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5C Spaces"`
+* Click Action: Open in Terminal / CMD
+* Expectation: TODO
+
+### 5D - Spaces Part Quoted - CUSTOM CMD
+
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5D Spaces"`
+* Click Action: Run custom command (advanced)
+* Shell command: `echo {path} && ls {path}`
+* Expectation: Terminal displays directory path and its contents
 
 ---
 
