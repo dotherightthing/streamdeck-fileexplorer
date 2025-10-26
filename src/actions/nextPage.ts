@@ -123,7 +123,13 @@ export class NextPage extends SingletonAction<NextPageSettings> {
         if (defaultedSettings.showcurrentpage) {
             const currentPage = folderView.getCurrentPage();
             const lastPage = folderView.getTotalPages();
-            action.setTitle(`${currentPage + 1}/${lastPage}`);
+
+            if (lastPage === 0) {
+                action.setTitle("");
+            } else {
+                action.setTitle(`${currentPage + 1}/${lastPage}`);
+            }
+           
         } else {
             action.setTitle("");
         }

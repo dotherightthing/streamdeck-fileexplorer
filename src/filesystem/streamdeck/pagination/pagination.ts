@@ -50,7 +50,7 @@ export class Pagination<T> extends EventEmitter<PaginationEvents> {
         const oldPage = this.currentPage;
         const newPage = Math.max(0, Math.min(page, this.getTotalPages() - 1));
         if (newPage !== oldPage) {
-            this.currentPage = newPage;
+            this.currentPage = newPage || 0;
         }
 
         this.emit("visibleContentChanged");
