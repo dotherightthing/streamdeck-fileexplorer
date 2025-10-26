@@ -1,4 +1,4 @@
-import { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
 import { FolderItemViewSettings } from "../types/actions/settings/folderItemViewSettings";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { FolderView } from "../filesystem/streamdeck/devices/folderView";
@@ -14,7 +14,8 @@ import { Analytics } from "../analytics/analytics";
 export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
     longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
-
+    private updateListeners: Map<string, () => void> = new Map();
+    private updateDebounceTimers: Map<string, NodeJS.Timeout> = new Map();
 
 
     override onKeyDown(ev: KeyDownEvent<FolderItemViewSettings>): Promise<void> | void {
@@ -62,14 +63,13 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         }
     }
 
-
-
-    // TODO: on appear -> very long load times to display content!
     override onWillAppear(ev: WillAppearEvent<FolderItemViewSettings>): Promise<void> | void {
         const folderView = this.getFolderView(ev.action.id);
         if (folderView && this.validAction(ev.action)) {
-            folderView.on("updateAction", () => this.updateVirtualFolderItemDisplay(ev.action.id));
-            
+            const listener = () => this.updateVirtualFolderItemDisplay(ev.action.id);
+            this.updateListeners.set(ev.action.id, listener);
+            folderView.on("updateAction", listener);
+
             if (this.validSettings(ev.payload.settings)) {
                 folderView.folderItemManager.addAction(ev.action.id, ev.payload.settings.view_index);
             } else {
@@ -82,6 +82,13 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
 
         if (folderView) {
+            // Remove the event listener for this action
+            const listener = this.updateListeners.get(ev.action.id);
+            if (listener) {
+                folderView.off("updateAction", listener);
+                this.updateListeners.delete(ev.action.id);
+            }
+            
             folderView.folderItemManager.removeAction(ev.action.id);
         }
     }
@@ -119,19 +126,32 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
 
     updateVirtualFolderItemDisplay(actionId: string): void {
-        const folderView = this.getFolderView(actionId);
-        if (!folderView) return;
-
-        const virtualFolderItem = folderView.folderItemManager.getVirtualFolderItemForAction(actionId);
-        const action = this.getActionById(actionId);
-
-        if (this.validAction(action)) {
-            if (!virtualFolderItem) {
-                this.applyEmptyDisplay(action);
-            } else {
-                this.applyVirtualFolderItemDisplay(action, virtualFolderItem);
-            }
+        const existingTimer = this.updateDebounceTimers.get(actionId);
+        if (existingTimer) {
+            clearTimeout(existingTimer);
         }
+
+        const timer = setTimeout(() => {
+            streamDeck.logger.info(`Updating FolderItemView display for action ${actionId}`);
+
+            const folderView = this.getFolderView(actionId);
+            if (!folderView) return;
+
+            const virtualFolderItem = folderView.folderItemManager.getVirtualFolderItemForAction(actionId);
+            const action = this.getActionById(actionId);
+
+            if (this.validAction(action)) {
+                if (!virtualFolderItem) {
+                    this.applyEmptyDisplay(action);
+                } else {
+                    this.applyVirtualFolderItemDisplay(action, virtualFolderItem);
+                }
+            }
+
+            this.updateDebounceTimers.delete(actionId);
+        }, 100);
+
+        this.updateDebounceTimers.set(actionId, timer);
     }
 
 

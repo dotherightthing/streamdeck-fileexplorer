@@ -4,8 +4,8 @@ import { VirtualFolderItem } from "./virtualFolderItem";
 
 export class FolderItemManager {
 
-    private indices: Map<string, number> = new Map();
-    private virtualFolderItems: Map<string, VirtualFolderItem> = new Map();
+    public indices: Map<string, number> = new Map();
+    public virtualFolderItems: Map<string, VirtualFolderItem> = new Map();
 
     constructor(public folderView: FolderView) {
         
