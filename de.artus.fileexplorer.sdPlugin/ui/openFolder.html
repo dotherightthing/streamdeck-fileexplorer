@@ -35,6 +35,12 @@
         </sdpi-select>
     </sdpi-item>
 
+    <sdpi-item id="openprofileitem">
+        <p>Automatically open the FileExplorerView Profile when the folder gets opened.</p>
+        <sdpi-checkbox setting="openprofile" label="Automatically open Profile" default="true"></sdpi-checkbox>
+        <p>Alternatively, you can use a Multi-Action and a SwitchProfile Action to achieve similar functionality.</p>
+    </sdpi-item>
+
     <sdpi-item id="customcommanditem">
         <p>Shell command where <code>{path}</code> gets replaced with your selected folder path. Example command: <code>explorer {path}</code></p>
         <sdpi-textarea
@@ -47,7 +53,11 @@
         function updateCustomCommandItemVisibility() {
             const selectElement = document.querySelector('[setting="openaction"]');
             const selectedValue = selectElement.value;
+
+            const openProfileItem = document.getElementById("openprofileitem");
             const customCommandItem = document.getElementById("customcommanditem");
+
+            openProfileItem.style.display = (selectedValue === "streamdeck") ? "block" : "none";
             customCommandItem.style.display = (selectedValue === "custom") ? "block" : "none";
         }
 

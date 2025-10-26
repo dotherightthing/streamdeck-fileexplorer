@@ -37,6 +37,11 @@ export class OpenFolder extends SingletonAction<OpenFolderSettings> {
 					streamDeck.logger.info(`Opening folder (${settings.folderpath}) on StreamDeck`);
 
 					FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id)?.loadFolderPath(settings.folderpath);
+					
+					if (settings.openprofile || settings.openprofile === undefined) {
+						streamDeck.logger.info(`Switching to FileExplorerView profile`);
+						streamDeck.profiles.switchToProfile(ev.action.device.id, "FileExplorerView");
+					}
 					break;
 
 				case "nativeexplorer":
