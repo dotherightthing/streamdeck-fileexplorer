@@ -132,8 +132,6 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         }
 
         const timer = setTimeout(() => {
-            streamDeck.logger.info(`Updating FolderItemView display for action ${actionId}`);
-
             const folderView = this.getFolderView(actionId);
             if (!folderView) return;
 
