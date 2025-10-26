@@ -9,44 +9,44 @@ export class Pagination<T> extends EventEmitter<PaginationEvents> {
     private currentPage: number = 0;
 
 
-    setItems(items: T[], resetPage: boolean = true): void {
+    public setItems(items: T[], resetPage: boolean = true): void {
         this.items = items;
         this.emit("onUpdateItems");
         this.setCurrentPage(resetPage ? 0 : this.currentPage);
     }
 
-    getAllItems(): T[] {
+    public getAllItems(): T[] {
         return this.items;
     }
 
-    getItem(index: number): T | undefined {
+    public getItem(index: number): T | undefined {
         return this.items[index];
     }
 
-    getItemOnCurrentPage(index: number): T | undefined {
+    public getItemOnCurrentPage(index: number): T | undefined {
         const globalIndex = this.currentPage * this.itemsPerPage + index;
         return this.getItem(globalIndex);
     }
 
-    setItemsPerPage(count: number): void {
+    public setItemsPerPage(count: number): void {
         this.itemsPerPage = Math.max(0, count);
         this.setCurrentPage(this.currentPage);
     }
 
-    getItemsPerPage(): number {
+    public getItemsPerPage(): number {
         return this.itemsPerPage;
     }
 
-    getTotalPages(): number {
+    public getTotalPages(): number {
         return Math.ceil(this.items.length / this.itemsPerPage);
     }
 
-    getCurrentPageItems(): T[] {
+    public getCurrentPageItems(): T[] {
         const start = this.currentPage * this.itemsPerPage;
         return this.items.slice(start, start + this.itemsPerPage);
     }
 
-    setCurrentPage(page: number): void {
+    public setCurrentPage(page: number): void {
         const oldPage = this.currentPage;
         const newPage = Math.max(0, Math.min(page, this.getTotalPages() - 1));
         if (newPage !== oldPage) {
@@ -56,34 +56,34 @@ export class Pagination<T> extends EventEmitter<PaginationEvents> {
         this.emit("visibleContentChanged");
     }
 
-    getCurrentPage(): number {
+    public getCurrentPage(): number {
         return this.currentPage;
     }
 
-    openNextPage(): void {
+    public openNextPage(): void {
         if (this.isLastPage()) return;
         this.setCurrentPage(this.currentPage + 1);
     }
 
-    openPreviousPage(): void {
+    public openPreviousPage(): void {
         if (this.isFirstPage()) return;
         this.setCurrentPage(this.currentPage - 1);
     }
 
-    openFirstPage(): void {
+    public openFirstPage(): void {
         this.setCurrentPage(0);
     }
 
-    openLastPage(): void {
+    public openLastPage(): void {
         this.setCurrentPage(this.getTotalPages() - 1);
     }
 
-    isLastPage(): boolean {
+    public isLastPage(): boolean {
         if (this.getItemsPerPage() === 0) return true;
         return this.currentPage >= this.getTotalPages() - 1;
     }
 
-    isFirstPage(): boolean {
+    public isFirstPage(): boolean {
         if (this.getItemsPerPage() === 0) return true;
         return this.currentPage <= 0;
     }

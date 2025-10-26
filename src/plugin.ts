@@ -11,6 +11,7 @@ import { SortContent } from "./actions/sortContent";
 import { Analytics, createAnalytics } from "./analytics/analytics";
 
 
+// TODO: improve dx -> eslint formatting
 streamDeck.logger.setLevel(LogLevel.INFO);
 
 

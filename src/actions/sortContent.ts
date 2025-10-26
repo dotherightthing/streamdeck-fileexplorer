@@ -1,4 +1,4 @@
-import streamDeck, { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { SortContentSettings } from "../types/actions/settings/sortContentSettings";
 import { GlobalFolderViewSettings } from "../filesystem/streamdeck/settings/globalSettings";
 import { FolderViewSortDirection } from "../types/folderViewSettings/sortDirection";
@@ -11,19 +11,19 @@ import { Analytics } from "../analytics/analytics";
 @action({ UUID: "de.artus.fileexplorer.sortcontent" })
 export class SortContent extends SingletonAction<SortContentSettings> {
 
-    longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
-    isGettingSettings: string[] = [];
-    isSettingSettings: string[] = [];
+    public longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
+    public isGettingSettings: string[] = [];
+    public isSettingSettings: string[] = [];
 
 
-     override onWillAppear(ev: WillAppearEvent<SortContentSettings>): Promise<void> | void {
+    public override onWillAppear(ev: WillAppearEvent<SortContentSettings>): Promise<void> | void {
         this.updateKeyTitleAndState(ev.action, this.getDefaultedSettings(ev.payload.settings).updateTitleToType, ev.payload.settings.switchSetting === "type");
 
         GlobalFolderViewSettings.instance.on("onUpdateSettings", () => this.syncToGlobalSettings(ev.action));
         this.syncToGlobalSettings(ev.action);
     }
 
-    async syncToGlobalSettings(action: KeyAction<SortContentSettings> | DialAction<SortContentSettings>): Promise<void> {
+    public async syncToGlobalSettings(action: DialAction<SortContentSettings> | KeyAction<SortContentSettings>): Promise<void> {
         const globalSettings = GlobalFolderViewSettings.instance;
         const actionId = action.id;
 
@@ -44,7 +44,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
         this.updateKeyTitleAndState(action, defaultedSettings.updateTitleToType, defaultedSettings.switchSetting === "type");
     }
 
-    override async onKeyDown(ev: KeyDownEvent<SortContentSettings>): Promise<void> {
+    public override async onKeyDown(ev: KeyDownEvent<SortContentSettings>): Promise<void> {
         const actionId = ev.action.id;
 
         if (this.longPressTimeout.has(actionId)) {
@@ -70,7 +70,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
     }
 
 
-    override onKeyUp(ev: KeyUpEvent<SortContentSettings>): Promise<void> | void {
+    public override onKeyUp(ev: KeyUpEvent<SortContentSettings>): Promise<void> | void {
         const actionId = ev.action.id;
         let isLongPress: boolean = true;
 
@@ -104,7 +104,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
 
 
 
-    override onDidReceiveSettings(ev: DidReceiveSettingsEvent<SortContentSettings>): Promise<void> | void {
+    public override onDidReceiveSettings(ev: DidReceiveSettingsEvent<SortContentSettings>): Promise<void> | void {
         const settings = ev.payload.settings;
         const globalSettings = GlobalFolderViewSettings.instance;
         const actionId = ev.action.id;
@@ -130,7 +130,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
         this.updateKeyTitleAndState(ev.action, defaultedSettings.updateTitleToType, defaultedSettings.switchSetting === "type");
     }
 
-    updateKeyTitleAndState(action: KeyAction<SortContentSettings> | DialAction<SortContentSettings>, updateTitle: boolean, switchTypeSelected: boolean): void {
+    public updateKeyTitleAndState(action: DialAction<SortContentSettings> | KeyAction<SortContentSettings>, updateTitle: boolean, switchTypeSelected: boolean): void {
         const globalSettings = GlobalFolderViewSettings.instance;
 
         if (action.isKey()) {
@@ -150,7 +150,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
         }
     }
 
-    getDefaultedSettings(settings: SortContentSettings): Required<SortContentSettings> {
+    public getDefaultedSettings(settings: SortContentSettings): Required<SortContentSettings> {
         const globalSettings = GlobalFolderViewSettings.instance;
         return {
             sortType: settings.sortType ?? globalSettings.sortType,
@@ -162,7 +162,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
         }
     }
 
-    getAllSettingsStates(): { sortType: FolderViewSortType[]; sortDirection: FolderViewSortDirection[]; sortFoldersFirst: boolean[] } {
+    public getAllSettingsStates(): { sortType: FolderViewSortType[]; sortDirection: FolderViewSortDirection[]; sortFoldersFirst: boolean[] } {
         return {
             sortType: ["name", "date", "size"],
             sortDirection: ["asc", "desc"],
@@ -170,7 +170,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
         };
     }
 
-    getNextSetting<T>(allSettings: T[], currentSetting: T): T {
+    public getNextSetting<T>(allSettings: T[], currentSetting: T): T {
         const currentIndex = allSettings.indexOf(currentSetting);
         if (currentIndex === -1 || currentIndex === allSettings.length - 1) {
             return allSettings[0];
@@ -179,7 +179,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
         }
     }
 
-    sendAnalytics(changed: "sort_type" | "sort_direction"): void {
+    public sendAnalytics(changed: "sort_direction" | "sort_type"): void {
         Analytics.instance.sendEvent({
             event: "sort_changed",
             properties: {

@@ -3,11 +3,11 @@ import { ClickType, VirtualFolderItem } from "./virtualFolderItem";
 export class FileItem extends VirtualFolderItem {
 
 
-    override async getName(): Promise<string> {
+    public override async getName(): Promise<string> {
         return await this.fileSystem.getFileName(this.path) ?? "Unknown";
     }
 
-    override async getIconPath(): Promise<string | undefined> {
+    public override async getIconPath(): Promise<string | undefined> {
     
         const fileType = await this.fileSystem.getFileExtension(this.path)
         // Supported image types: https://docs.elgato.com/streamdeck/sdk/guides/keys#images
@@ -19,7 +19,7 @@ export class FileItem extends VirtualFolderItem {
         return undefined;
     }
 
-    override onClick(clickType: ClickType): void {
+    public override onClick(clickType: ClickType): void {
         if (clickType === "normal") {
             this.fileSystem.openFileWithDefaultApplication(this.path);
         } else if (clickType === "long") {

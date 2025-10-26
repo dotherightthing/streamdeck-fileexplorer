@@ -8,13 +8,13 @@ export abstract class VirtualFolderItem {
     }
 
 
-    abstract getName(): Promise<string> | string;
+    public abstract getName(): Promise<string> | string;
 
-    abstract getIconPath(): Promise<string | undefined> | string | undefined;
+    public abstract getIconPath(): Promise<string | undefined> | string | undefined;
 
-    abstract onClick(clickType: ClickType): Promise<void> | void;
+    public abstract onClick(clickType: ClickType): Promise<void> | void;
 
 }
 
 
-export type ClickType = "normal" | "long";
+export type ClickType = "long" | "normal";

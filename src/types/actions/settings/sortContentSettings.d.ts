@@ -6,7 +6,7 @@ export type SortContentSettings = {
     sortDirection?: FolderViewSortDirection;
     sortFoldersFirst?: boolean;
 
-    switchSetting?: "type" | "direction";
+    switchSetting?: "direction" | "type";
     updateTitleToType?: boolean;
     longPressToggle?: boolean;
 }

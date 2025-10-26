@@ -1,4 +1,4 @@
-import streamDeck, { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
+import { action, DialAction, DidReceiveSettingsEvent, KeyAction, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent, WillDisappearEvent } from "@elgato/streamdeck";
 import { FolderItemViewSettings } from "../types/actions/settings/folderItemViewSettings";
 import { FolderViewManager } from "../filesystem/streamdeck/devices/deviceManager";
 import { FolderView } from "../filesystem/streamdeck/devices/folderView";
@@ -13,12 +13,12 @@ import { Analytics } from "../analytics/analytics";
 @action({ UUID: "de.artus.fileexplorer.folderitemview" })
 export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
 
-    longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
+    private longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
     private updateListeners: Map<string, () => void> = new Map();
     private updateDebounceTimers: Map<string, NodeJS.Timeout> = new Map();
 
 
-    override onKeyDown(ev: KeyDownEvent<FolderItemViewSettings>): Promise<void> | void {
+    public override onKeyDown(ev: KeyDownEvent<FolderItemViewSettings>): Promise<void> | void {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
@@ -41,7 +41,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
     }
 
 
-    override onKeyUp(ev: KeyUpEvent<FolderItemViewSettings>): Promise<void> | void {
+    public override onKeyUp(ev: KeyUpEvent<FolderItemViewSettings>): Promise<void> | void {
         const actionId = ev.action.id;
         let isLongPress: boolean = true;
 
@@ -63,10 +63,10 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         }
     }
 
-    override onWillAppear(ev: WillAppearEvent<FolderItemViewSettings>): Promise<void> | void {
+    public override onWillAppear(ev: WillAppearEvent<FolderItemViewSettings>): Promise<void> | void {
         const folderView = this.getFolderView(ev.action.id);
         if (folderView && this.validAction(ev.action)) {
-            const listener = () => this.updateVirtualFolderItemDisplay(ev.action.id);
+            const listener = (): void => this.updateVirtualFolderItemDisplay(ev.action.id);
             this.updateListeners.set(ev.action.id, listener);
             folderView.on("updateAction", listener);
 
@@ -78,7 +78,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         }
     }
 
-    override onWillDisappear(ev: WillDisappearEvent<FolderItemViewSettings>): Promise<void> | void {
+    public override onWillDisappear(ev: WillDisappearEvent<FolderItemViewSettings>): Promise<void> | void {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
 
         if (folderView) {
@@ -93,7 +93,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         }
     }
 
-    override onDidReceiveSettings(ev: DidReceiveSettingsEvent<FolderItemViewSettings>): Promise<void> | void {
+    public override onDidReceiveSettings(ev: DidReceiveSettingsEvent<FolderItemViewSettings>): Promise<void> | void {
         const folderView = this.getFolderView(ev.action.id);
 
         if (folderView) {
@@ -109,23 +109,23 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
         }
     }
 
-    getFolderView(actionId: string): FolderView | undefined {
+    public getFolderView(actionId: string): FolderView | undefined {
         const deviceId = this.getDeviceIdForAction(actionId);
         if (!deviceId) return undefined;
 
         return FolderViewManager.instance.getFolderViewForDevice(deviceId);
     }
 
-    getDeviceIdForAction(actionId: string): string | undefined {
+    public getDeviceIdForAction(actionId: string): string | undefined {
         return this.actions.find(a => a.id === actionId)?.device.id;
     }
 
-    getActionById(actionId: string): DialAction<FolderItemViewSettings> | KeyAction<FolderItemViewSettings> | undefined {
+    public getActionById(actionId: string): DialAction<FolderItemViewSettings> | KeyAction<FolderItemViewSettings> | undefined {
         return this.actions.find(a => a.id === actionId);
     }
 
 
-    updateVirtualFolderItemDisplay(actionId: string): void {
+    public updateVirtualFolderItemDisplay(actionId: string): void {
         const existingTimer = this.updateDebounceTimers.get(actionId);
         if (existingTimer) {
             clearTimeout(existingTimer);
@@ -153,7 +153,7 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
     }
 
 
-    async applyVirtualFolderItemDisplay(action: KeyAction<FolderItemViewSettings>, virtualFolderItem: VirtualFolderItem): Promise<void> {
+    public async applyVirtualFolderItemDisplay(action: KeyAction<FolderItemViewSettings>, virtualFolderItem: VirtualFolderItem): Promise<void> {
         const svgImage = await getFolderItemImage(virtualFolderItem);
         action.setImage(svgImage);
 
@@ -162,22 +162,22 @@ export class FolderItemView extends SingletonAction<FolderItemViewSettings> {
     }
 
 
-    applyEmptyDisplay(action: KeyAction<FolderItemViewSettings>): void {
+    public applyEmptyDisplay(action: KeyAction<FolderItemViewSettings>): void {
         action.setTitle("");
         action.setImage(undefined);
         action.setState(0);
     }
 
-    validSettings(settings: FolderItemViewSettings): boolean {
+    public validSettings(settings: FolderItemViewSettings): boolean {
         return settings.view_index !== undefined && !isNaN(settings.view_index) && settings.view_index > 0;
     }
 
-    validAction(action: KeyAction<FolderItemViewSettings> | DialAction<FolderItemViewSettings> | undefined): action is KeyAction<FolderItemViewSettings> {
+    public validAction(action: DialAction<FolderItemViewSettings> | KeyAction<FolderItemViewSettings> | undefined): action is KeyAction<FolderItemViewSettings> {
         return action !== undefined && action.isKey() && !action?.isInMultiAction();
     }
 
 
-    sendClickAnalytics(actionType: "normal" | "long"): void {
+    public sendClickAnalytics(actionType: "long" | "normal"): void {
         Analytics.instance.sendEvent({
             event: "folder_item_clicked",
             properties: {

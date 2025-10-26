@@ -1,2 +1,2 @@
 
-export type FolderViewSortType = "name" | "date" | "size";
+export type FolderViewSortType = "date" | "name" | "size";

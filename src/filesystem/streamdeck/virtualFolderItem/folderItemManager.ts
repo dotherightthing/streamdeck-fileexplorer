@@ -1,4 +1,3 @@
-import streamDeck from "@elgato/streamdeck";
 import { FolderView } from "../devices/folderView";
 import { VirtualFolderItem } from "./virtualFolderItem";
 
@@ -12,31 +11,31 @@ export class FolderItemManager {
     }
 
 
-    addAction(actionId: string, index: number) {
+    public addAction(actionId: string, index: number): void {
         this.indices.set(actionId, index);
 
         this.recalculateItemsPerPage();
     }
 
-    removeAction(actionId: string) {
+    public removeAction(actionId: string): void {
         this.indices.delete(actionId);
         this.virtualFolderItems.delete(actionId);
 
         this.recalculateItemsPerPage();
     }
 
-    updateIndex(actionId: string, index: number) {
+    public updateIndex(actionId: string, index: number): void {
         this.indices.delete(actionId);
         this.virtualFolderItems.delete(actionId);
 
         this.addAction(actionId, index);
     }
 
-    getVirtualFolderItemForAction(actionId: string): VirtualFolderItem | undefined {
+    public getVirtualFolderItemForAction(actionId: string): VirtualFolderItem | undefined {
         return this.virtualFolderItems.get(actionId);
     }
 
-    setVirtualFolderItems(virtualFolderItems: VirtualFolderItem[]): void {
+    public setVirtualFolderItems(virtualFolderItems: VirtualFolderItem[]): void {
         this.virtualFolderItems.clear();
 
         for (const [actionId, index] of this.indices) {
@@ -50,7 +49,7 @@ export class FolderItemManager {
         this.folderView.emit("updateAction")
     }
 
-    recalculateItemsPerPage(): void {
+    public recalculateItemsPerPage(): void {
         const maxIndex = Math.max(0, ...Array.from(this.indices.values()));
 
         this.folderView.setItemsPerPage(maxIndex);

@@ -1,6 +1,6 @@
 export type PrevPageSettings = {
-    clickaction?: "prev" | "first";
-    longpressaction?: "prev" | "first";
+    clickaction?: "first" | "prev";
+    longpressaction?: "first" | "prev";
     longpresstrigger?: number;
     showcurrentpage?: boolean;
 }

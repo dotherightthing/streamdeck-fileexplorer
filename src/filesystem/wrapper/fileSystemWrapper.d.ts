@@ -2,7 +2,7 @@ export interface FileSystemWrapper {
 
     /**
      * Opens a native folder picker dialog and returns the selected folder path or null if no folder was selected or the dialog was canceled.
-     * @returns {Promise<string | null>} The selected folder path or null.
+     * @returns The selected folder path or null.
      */
     openFolderPickerDialog(): Promise<string | null>;
 
@@ -11,20 +11,20 @@ export interface FileSystemWrapper {
      * Opens the specified folder path in the native file explorer. E.g., File Explorer on Windows, Finder on macOS, or the default file manager on Linux.
      * @param path The folder path to open.
      */
-    openExplorerWithPath(path: string): void | Promise<void>;
+    openExplorerWithPath(path: string): Promise<void> | void;
 
 
     /**
      * Starts a command prompt (cmd) window with the specified folder path as the current directory.
      * @param path The folder path to set as the current directory in the command prompt.
      */
-    startCmdWithPath(path: string): void | Promise<void>;
+    startCmdWithPath(path: string): Promise<void> | void;
 
     
     /**
      * Retrieves the list of files and folders in the specified directory path.
      * @param folderPath The directory path to list the contents of.
-     * @returns {Promise<string[]>} A promise that resolves to an array of file and folder names in the specified directory.
+     * @returns A promise that resolves to an array of file and folder names in the specified directory.
      */
     getFolderContent(folderPath: string): Promise<string[]>;
 
@@ -32,14 +32,14 @@ export interface FileSystemWrapper {
     /**
      * Checks if the given path is a directory.
      * @param path The file or directory path to check.
-     * @returns {Promise<boolean> | boolean} True if the path is a directory, false otherwise.
+     * @returns True if the path is a directory, false otherwise.
      */
     isPathDirectory(path: string): Promise<boolean> | boolean;
 
     /**
      * Retrieves the file extension from the given file path.
      * @param filePath The file path to extract the extension from.
-     * @returns {Promise<string | undefined> | string | undefined} The file extension (including the dot) or an empty string if the file has no extension.
+     * @returns The file extension (including the dot) or an empty string if the file has no extension.
      */
     getFileExtension(filePath: string): Promise<string | undefined> | string | undefined;
     
@@ -47,7 +47,7 @@ export interface FileSystemWrapper {
     /**
      * Retrieves the file name (with extension) from the given file path.
      * @param filePath The file path to extract the file name from.
-     * @returns {Promise<string | undefined> | string | undefined} The file name with extension.
+     * @returns The file name with extension.
      */
     getFileName(filePath: string): Promise<string | undefined> | string | undefined;
 
@@ -55,7 +55,7 @@ export interface FileSystemWrapper {
     /**
      * Retrieves the folder name from the given folder path.
      * @param folderPath The folder path to extract the folder name from.
-     * @returns {Promise<string | undefined> | string | undefined} The folder name.
+     * @returns The folder name.
      */
     getFolderName(folderPath: string): Promise<string | undefined> | string | undefined;
 
@@ -63,7 +63,7 @@ export interface FileSystemWrapper {
     /**
      * Retrieves the size of the file or folder at the given path.
      * @param path The file or folder path to get the size of.
-     * @returns {Promise<number | undefined> | number | undefined} The size in bytes, or undefined if the path does not exist or an error occurs.
+     * @returns The size in bytes, or undefined if the path does not exist or an error occurs.
      */
     getFileOrFolderSize(path: string): Promise<number | undefined> | number | undefined;
 
@@ -71,15 +71,15 @@ export interface FileSystemWrapper {
     /**
      * Retrieves the last modified time of the file or folder at the given path.
      * @param path The file or folder path to get the last modified time of.
-     * @returns {Promise<Date | undefined> | Date | undefined} The last modified time as a Date object, or undefined if the path does not exist or an error occurs.
+     * @returns The last modified time as a Date object, or undefined if the path does not exist or an error occurs.
      */
-    getLastModifiedTime(path: string): Promise<Date | undefined> | Date | undefined;
+    getLastModifiedTime(path: string): Date | Promise<Date | undefined> | undefined;
 
 
     /**
      * Retrieves the parent path of the given path.
      * @param path The file or folder path to get the parent path of.
-     * @returns {Promise<string | undefined> | string | undefined} The parent path, or undefined if the path has no parent.
+     * @returns The parent path, or undefined if the path has no parent.
      */
     getParentPath(path: string): Promise<string | undefined> | string | undefined;
 
@@ -88,11 +88,11 @@ export interface FileSystemWrapper {
      * Opens the file at the specified path with the system's default application for that file type.
      * @param path The file path to open.
      */
-    openFileWithDefaultApplication(path: string): void | Promise<void>;
+    openFileWithDefaultApplication(path: string): Promise<void> | void;
 
     /**
      * Reveals the file at the specified path in the native file explorer.
      * @param filePath The file path to reveal.
      */
-    revealFileInExplorer(filePath: string): void | Promise<void>;
+    revealFileInExplorer(filePath: string): Promise<void> | void;
 }

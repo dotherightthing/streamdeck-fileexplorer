@@ -25,11 +25,11 @@ async function isInitialLaunch(): Promise<boolean> {
 
 class Analytics {
 
-    static instance: Analytics;
+    public static instance: Analytics;
 
 
-    client: PostHog;
-    userId: string = "unknown";
+    public client: PostHog;
+    public userId: string = "unknown";
 
     constructor(secret: string, host: string) {
         if (Analytics.instance) {
@@ -40,7 +40,7 @@ class Analytics {
         this.client = new PostHog(secret, { host });
     }
     
-    async startup(): Promise<void> {
+    public async startup(): Promise<void> {
         streamDeck.logger.info("Starting analytics");
 
         const initialLaunch = await isInitialLaunch();
@@ -68,17 +68,17 @@ class Analytics {
         });
     }
 
-    async shutdown(): Promise<void> {
+    public async shutdown(): Promise<void> {
         streamDeck.logger.info("Shutting down analytics");
         await this.client.shutdown();
         streamDeck.logger.info("Analytics shut down!");
     }
 
-    isDevEnvironment(): boolean {
+    public isDevEnvironment(): boolean {
         return process.env.NODE_ENV === "development";
     }
 
-    sendEvent(event: AnalyticsEvent): void {
+    public sendEvent(event: AnalyticsEvent): void {
         if (this.isDevEnvironment()) {
             streamDeck.logger.info(`Dev environment detected, analytics event "${event.event}" not sent`);
             return;

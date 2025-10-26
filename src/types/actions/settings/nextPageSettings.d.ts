@@ -1,6 +1,6 @@
 export type NextPageSettings = {
-    clickaction?: "next" | "last";
-    longpressaction?: "next" | "last";
+    clickaction?: "last" | "next";
+    longpressaction?: "last" | "next";
     longpresstrigger?: number;
     showcurrentpage?: boolean;
 }

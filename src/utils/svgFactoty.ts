@@ -2,7 +2,6 @@ import { registerWindow, Svg, SVG } from "@svgdotjs/svg.js";
 import { createSVGWindow } from "svgdom";
 import { VirtualFolderItem } from "../filesystem/streamdeck/virtualFolderItem/virtualFolderItem";
 import { FolderItem } from "../filesystem/streamdeck/virtualFolderItem/folderItem";
-import streamDeck from "@elgato/streamdeck";
 import { splitTextEfficiently } from "./textsplitting";
 import { GlobalFolderViewSettings } from "../filesystem/streamdeck/settings/globalSettings";
 

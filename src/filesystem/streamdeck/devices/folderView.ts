@@ -22,18 +22,18 @@ export class FolderView extends Pagination<string> {
         this.settings.on("onUpdateSettings", () => this.reloadContent());
     }
 
-    destroy(): void {
+    public destroy(): void {
         streamDeck.logger.info(`Destroying FolderView`);
     }
 
-    loadFolderPath(path: string): void {
+    public loadFolderPath(path: string): void {
         streamDeck.logger.trace(`Loading folder path: ${path}`);
 
         this.currentPath = path;
         this.reloadContent();
     }
 
-    loadParentFolder(): void {
+    public loadParentFolder(): void {
         if (!this.currentPath) return;
 
         const parentPath = this.filesystem.getParentPath(this.currentPath);
@@ -44,7 +44,7 @@ export class FolderView extends Pagination<string> {
         this.loadFolderPath(parentPath);
     }
 
-    reloadContent(): void {
+    public reloadContent(): void {
         if (!this.currentPath) {
             streamDeck.logger.warn("No current path set (=> No active folder view), cannot reload content");
             return;
@@ -59,7 +59,7 @@ export class FolderView extends Pagination<string> {
         });
     }
 
-    async sortItems(items: string[]): Promise<string[]> {
+    public async sortItems(items: string[]): Promise<string[]> {
         const sortType = this.settings.sortType;
         const sortDirection = this.settings.sortDirection;
         const foldersFirst = this.settings.sortFoldersFirst;
@@ -88,11 +88,12 @@ export class FolderView extends Pagination<string> {
                 case "name":
                     comparison = a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'variant' });
                     break;
-                case "date":
+                case "date": {
                     const aTime = a.date ? a.date.getTime() : 0;
                     const bTime = b.date ? b.date.getTime() : 0;
                     comparison = bTime - aTime; // inverted to have newest first in "asc"
                     break;
+                }
                 case "size":
                     comparison = a.size - b.size;
                     break;
@@ -108,14 +109,14 @@ export class FolderView extends Pagination<string> {
         return itemData.map(d => d.item);
     }
 
-    updateVirtualFolderItems(): void {
+    public updateVirtualFolderItems(): void {
         const virtualFolderItems = this.getAllItems().map(path => this.createVirtualFolderItem(path));
         Promise.all(virtualFolderItems).then(vfi => {
             this.folderItemManager.setVirtualFolderItems(vfi);
         });
     }
 
-    async createVirtualFolderItem(path: string): Promise<VirtualFolderItem> {
+    public async createVirtualFolderItem(path: string): Promise<VirtualFolderItem> {
         if (await this.filesystem.isPathDirectory(path)) {
             return new FolderItem(path, this, this.filesystem);
         } else {

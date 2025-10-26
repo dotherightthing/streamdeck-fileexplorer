@@ -34,7 +34,7 @@ export class FolderViewManager {
     }
 
 
-    addDevice(deviceId: string): void {
+    public addDevice(deviceId: string): void {
         if (this.devices.has(deviceId)) {
             this.removeDevice(deviceId);
         }
@@ -42,22 +42,22 @@ export class FolderViewManager {
         this.devices.set(deviceId, new FolderView(deviceId, this.fileSystem));
     }
 
-    removeDevice(deviceId: string): void {
+    public removeDevice(deviceId: string): void {
         const view = this.devices.get(deviceId);
         view?.destroy();
 
         this.devices.delete(deviceId);
     }
 
-    getFolderViewForDevice(deviceId: string): FolderView | undefined {
+    public getFolderViewForDevice(deviceId: string): FolderView | undefined {
         return this.devices.get(deviceId);
     }
 
-    getAllFolderViews(): Map<string, FolderView> {
+    public getAllFolderViews(): Map<string, FolderView> {
         return this.devices;
     }
 
-    clear(): void {
+    public clear(): void {
         this.devices.forEach((view) => view.destroy());
         this.devices.clear();
     }

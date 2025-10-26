@@ -11,10 +11,10 @@ import { Analytics } from "../analytics/analytics";
 export class PrevPage extends SingletonAction<PrevPageSettings> {
 
 
-    longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
+    public longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
     
 
-    override onKeyDown(ev: KeyDownEvent<PrevPageSettings>): Promise<void> | void {
+    public override onKeyDown(ev: KeyDownEvent<PrevPageSettings>): Promise<void> | void {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
@@ -41,7 +41,7 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
         }, settings.longpresstrigger))
     }
 
-    override onKeyUp(ev: KeyUpEvent<PrevPageSettings>): Promise<void> | void {
+    public override onKeyUp(ev: KeyUpEvent<PrevPageSettings>): Promise<void> | void {
         const actionId = ev.action.id;
         let isLongPress: boolean = true;
 
@@ -71,7 +71,7 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
     }
 
 
-    override async onWillAppear(ev: WillAppearEvent<PrevPageSettings>): Promise<void> {
+    public override async onWillAppear(ev: WillAppearEvent<PrevPageSettings>): Promise<void> {
         if (!ev.payload.settings.longpresstrigger) {
             ev.action.setSettings({
                 ...ev.payload.settings,
@@ -86,18 +86,18 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
         this.updateDisplayCallback(ev.action.id);
     }
 
-    override onWillDisappear(ev: WillDisappearEvent<PrevPageSettings>): Promise<void> | void {
+    public override onWillDisappear(ev: WillDisappearEvent<PrevPageSettings>): Promise<void> | void {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(ev.action.device.id);
         if (!folderView) return;
 
         folderView.off("visibleContentChanged", () => this.updateDisplayCallback(ev.action.id));
     }
 
-    override onDidReceiveSettings(ev: DidReceiveSettingsEvent<PrevPageSettings>): Promise<void> | void {
+    public override onDidReceiveSettings(ev: DidReceiveSettingsEvent<PrevPageSettings>): Promise<void> | void {
         this.updateTitle(ev.action, ev.payload.settings);
     }
 
-    updateDisplayCallback(actionId: string): void {
+    public updateDisplayCallback(actionId: string): void {
         const action = streamDeck.actions.getActionById(actionId);
         if (!action) return;
         if (!this.isValidAction(action)) return;
@@ -114,7 +114,7 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
         action.getSettings(); // Triggers onDidReceiveSettings so we dont have to call updateTitle here -> less code duplication
     }
 
-    updateTitle(action: KeyAction<PrevPageSettings> | DialAction<PrevPageSettings>, settings: PrevPageSettings): void {
+    public updateTitle(action: DialAction<PrevPageSettings> | KeyAction<PrevPageSettings>, settings: PrevPageSettings): void {
         const folderView = FolderViewManager.instance.getFolderViewForDevice(action.device.id);
         if (!folderView) return;
 
@@ -135,12 +135,12 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
         }
     }
 
-    isValidAction(action: KeyAction<PrevPageSettings> | DialAction<PrevPageSettings>): action is KeyAction<PrevPageSettings> {
+    public isValidAction(action: DialAction<PrevPageSettings> | KeyAction<PrevPageSettings>): action is KeyAction<PrevPageSettings> {
         return action.isKey() && !action.isInMultiAction();
     }
 
 
-    getDefaultedSettings(settings: PrevPageSettings): Required<PrevPageSettings> {
+    public getDefaultedSettings(settings: PrevPageSettings): Required<PrevPageSettings> {
         return {
             ...settings,
             clickaction: settings.clickaction ?? "prev",
@@ -150,7 +150,7 @@ export class PrevPage extends SingletonAction<PrevPageSettings> {
         };
     }
 
-    sendClickAnalytics(direction: "forward" | "backward", target: "next" | "last" | "previous" | "first"): void {
+    public sendClickAnalytics(direction: "backward" | "forward", target: "first" | "last" | "next" | "previous"): void {
         Analytics.instance.sendEvent({
             event: "page_navigated",
             properties: {

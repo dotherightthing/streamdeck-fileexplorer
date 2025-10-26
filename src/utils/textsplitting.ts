@@ -67,10 +67,10 @@ function findBestFontSize(text: string, fontSize: number = 20): number {
 
 
 
-function getMaxLineCount(fontSize: number) {
+function getMaxLineCount(fontSize: number): number {
     return SWEETSPOTS.find(spot => spot[0] === fontSize)?.[2] ?? 3;
 }
 
-function getMaxLineWidth(fontSize: number) {
+function getMaxLineWidth(fontSize: number): number {
     return SWEETSPOTS.find(spot => spot[0] === fontSize)?.[1] ?? 7;
 }
