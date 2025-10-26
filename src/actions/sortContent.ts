@@ -13,6 +13,7 @@ export class SortContent extends SingletonAction<SortContentSettings> {
 
     longPressTimeout: Map<string, NodeJS.Timeout> = new Map();
     isGettingSettings: string[] = [];
+    isSettingSettings: string[] = [];
 
 
      override onWillAppear(ev: WillAppearEvent<SortContentSettings>): Promise<void> | void {
@@ -31,12 +32,14 @@ export class SortContent extends SingletonAction<SortContentSettings> {
         this.isGettingSettings = this.isGettingSettings.filter(id => id !== actionId);
         const defaultedSettings = this.getDefaultedSettings(settings);
 
+        this.isSettingSettings.push(actionId);
         await action.setSettings({
             ...settings,
             sortType: globalSettings.sortType,
             sortDirection: globalSettings.sortDirection,
             sortFoldersFirst: globalSettings.sortFoldersFirst
         });
+        this.isSettingSettings = this.isSettingSettings.filter(id => id !== actionId);
 
         this.updateKeyTitleAndState(action, defaultedSettings.updateTitleToType, defaultedSettings.switchSetting === "type");
     }
@@ -104,14 +107,27 @@ export class SortContent extends SingletonAction<SortContentSettings> {
     override onDidReceiveSettings(ev: DidReceiveSettingsEvent<SortContentSettings>): Promise<void> | void {
         const settings = ev.payload.settings;
         const globalSettings = GlobalFolderViewSettings.instance;
+        const actionId = ev.action.id;
 
-        if (this.isGettingSettings.length !== 0) return;
+        // Prevent circular updates: ignore if this specific action is currently getting or setting settings
+        if (this.isGettingSettings.includes(actionId) || this.isSettingSettings.includes(actionId)) return;
 
-        globalSettings.sortType = settings.sortType ?? globalSettings.sortType;
-        globalSettings.sortDirection = settings.sortDirection ?? globalSettings.sortDirection;
-        globalSettings.sortFoldersFirst = settings.sortFoldersFirst ?? globalSettings.sortFoldersFirst;
+        // Check if settings actually changed before emitting update event
+        const sortTypeChanged = settings.sortType !== undefined && settings.sortType !== globalSettings.sortType;
+        const sortDirectionChanged = settings.sortDirection !== undefined && settings.sortDirection !== globalSettings.sortDirection;
+        const sortFoldersFirstChanged = settings.sortFoldersFirst !== undefined && settings.sortFoldersFirst !== globalSettings.sortFoldersFirst;
 
-        globalSettings.emit("onUpdateSettings");
+        if (sortTypeChanged || sortDirectionChanged || sortFoldersFirstChanged) {
+            globalSettings.sortType = settings.sortType ?? globalSettings.sortType;
+            globalSettings.sortDirection = settings.sortDirection ?? globalSettings.sortDirection;
+            globalSettings.sortFoldersFirst = settings.sortFoldersFirst ?? globalSettings.sortFoldersFirst;
+
+            globalSettings.emit("onUpdateSettings");
+        }
+
+        // Update title and state if display settings changed (even if sort settings didn't)
+        const defaultedSettings = this.getDefaultedSettings(settings);
+        this.updateKeyTitleAndState(ev.action, defaultedSettings.updateTitleToType, defaultedSettings.switchSetting === "type");
     }
 
     updateKeyTitleAndState(action: KeyAction<SortContentSettings> | DialAction<SortContentSettings>, updateTitle: boolean, switchTypeSelected: boolean): void {
