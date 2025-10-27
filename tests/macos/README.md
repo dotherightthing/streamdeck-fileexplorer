@@ -1,4 +1,4 @@
-# FileExplorer Tests
+# FileExplorer Tests - macOS
 
 ## Commands
 
@@ -9,40 +9,40 @@ npm install
 
 npm run build
 
-chmod +x ./tests/scripts/*.sh
+chmod +x ./tests/macos/scripts/*.sh
 
-./tests/scripts/setup.sh
+./tests/macos/scripts/setup.sh
 
-./tests/scripts/streamdeck-restart.sh
+./tests/macos/scripts/streamdeck-restart.sh
 ```
 
 Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
-1. `./tests/profiles/FileExplorerTests.streamDeckProfile`
-2. `./tests/profiles/FolderView.streamDeckProfile`
+1. `./tests/macos/profiles/FileExplorerTests.streamDeckProfile`
+2. `./tests/macos/profiles/FolderView.streamDeckProfile`
 
 ### Teardown
 
 ```sh
-./tests/scripts/teardown.sh
+./tests/macos/scripts/teardown.sh
 ```
 
 ### Stream Deck: Open plugins directory
 
 ```sh
-./tests/scripts/streamdeck-plugins.sh
+./tests/macos/scripts/streamdeck-plugins.sh
 ```
 
 ### Stream Deck: Open plugin logs folder
 
 ```sh
-./tests/scripts/streamdeck-plugin-logs.sh
+./tests/macos/scripts/streamdeck-plugin-logs.sh
 ```
 
 ### Stream Deck: Restart
 
 ```sh
-./tests/scripts/streamdeck-restart.sh
+./tests/macos/scripts/streamdeck-restart.sh
 ```
 
 ---
@@ -58,14 +58,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 1A - No Spaces - EXPLORER
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1A`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/1A`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
 * Result: PASS ✅
 
 ### 1B - No Spaces - STREAMDECK
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1B`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/1B`
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
@@ -73,14 +79,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 1C - No Spaces - TERMINAL
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1C`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/1C`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
 * Result: PASS ✅
 
 ### 1D - No Spaces - CUSTOM CMD
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1D`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/1D`
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
@@ -88,14 +100,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 2A - No Spaces Quoted - EXPLORER
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2A"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/2A"`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
 * Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 2B - No Spaces Quoted - STREAMDECK
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2B"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/2B"`
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
@@ -103,14 +121,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 2C - No Spaces Quoted - TERMINAL
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2C"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/2C"`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
 * Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 2D - No Spaces Quoted - CUSTOM CMD
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2D"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/2D"`
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
@@ -118,14 +142,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 3A - Spaces Escaped - EXPLORER
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3A\ Spaces`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/3A\ Spaces`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
 * Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 3B - Spaces Escaped - STREAMDECK
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3B\ Spaces`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/3B\ Spaces`
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
@@ -133,14 +163,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 3C - Spaces Escaped - TERMINAL
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3C\ Spaces`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/3C\ Spaces`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
 * Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 3D - Spaces Escaped - CUSTOM CMD
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3D\ Spaces`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/3D\ Spaces`
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
@@ -148,14 +184,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 4A - Spaces Quoted - EXPLORER
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4A\ Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/4A\ Spaces"`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
 * Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 4B - Spaces Quoted - STREAMDECK
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4B\ Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/4B\ Spaces"`
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
@@ -163,14 +205,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 4C - Spaces Quoted - TERMINAL
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4C\ Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/4C\ Spaces"`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
 * Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 4D - Spaces Quoted - CUSTOM CMD
 
-* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4D\ Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/4D\ Spaces"`
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
@@ -178,14 +226,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 5A - Spaces Part Quoted - EXPLORER
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5A Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/"5A Spaces"`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
 * Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 5B - Spaces Part Quoted - STREAMDECK
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5B Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/"5B Spaces"`
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
@@ -193,14 +247,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 ### 5C - Spaces Part Quoted - TERMINAL
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5C Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/"5C Spaces"`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
 * Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 5D - Spaces Part Quoted - CUSTOM CMD
 
-* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5D Spaces"`
+* System: macOS Sonoma 14.8.1
+* Stream Deck app: 7.0.3 (22071)
+* Stream Deck device: Stream Deck XL
+* Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/macos/"5D Spaces"`
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents

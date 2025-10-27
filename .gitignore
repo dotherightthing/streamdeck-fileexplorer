@@ -6,4 +6,4 @@ node_modules/
 *.sdPlugin/logs
 
 # Test files
-tests/**/*.jpg
+tests/macos/**/*.jpg
