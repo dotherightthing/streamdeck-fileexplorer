@@ -60,20 +60,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1A`
 * Click Action: Open in native file explorer
-* Expectation: Finder opens at correct location
+* Expectation: Finder opens at Folder Path
 
 ### 1B - No Spaces - STREAMDECK
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1B`
 * Click Action: Open on StreamDeck
 * Automatically open profile
-* Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+* Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
 
 ### 1C - No Spaces - TERMINAL
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1C`
 * Click Action: Open in Terminal / CMD
-* Expectation: TODO
+* Expectation: Open new Terminal at Folder Path
 
 ### 1D - No Spaces - CUSTOM CMD
 
@@ -86,20 +86,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2A"`
 * Click Action: Open in native file explorer
-* Expectation: Finder opens at correct location
+* Expectation: Finder opens at Folder Path
 
 ### 2B - No Spaces Quoted - STREAMDECK
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2B"`
 * Click Action: Open on StreamDeck
 * Automatically open profile
-* Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+* Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
 
 ### 2C - No Spaces Quoted - TERMINAL
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2C"`
 * Click Action: Open in Terminal / CMD
-* Expectation: TODO
+* Expectation: Open new Terminal at Folder Path
 
 ### 2D - No Spaces Quoted - CUSTOM CMD
 
@@ -112,20 +112,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3A\ Spaces`
 * Click Action: Open in native file explorer
-* Expectation: Finder opens at correct location
+* Expectation: Finder opens at Folder Path
 
 ### 3B - Spaces Escaped - STREAMDECK
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3B\ Spaces`
 * Click Action: Open on StreamDeck
 * Automatically open profile
-* Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+* Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
 
 ### 3C - Spaces Escaped - TERMINAL
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3C\ Spaces`
 * Click Action: Open in Terminal / CMD
-* Expectation: TODO
+* Expectation: Open new Terminal at Folder Path
 
 ### 3D - Spaces Escaped - CUSTOM CMD
 
@@ -138,20 +138,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4A\ Spaces"`
 * Click Action: Open in native file explorer
-* Expectation: Finder opens at correct location
+* Expectation: Finder opens at Folder Path
 
 ### 4B - Spaces Quoted - STREAMDECK
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4B\ Spaces"`
 * Click Action: Open on StreamDeck
 * Automatically open profile
-* Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+* Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
 
 ### 4C - Spaces Quoted - TERMINAL
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4C\ Spaces"`
 * Click Action: Open in Terminal / CMD
-* Expectation: TODO
+* Expectation: Open new Terminal at Folder Path
 
 ### 4D - Spaces Quoted - CUSTOM CMD
 
@@ -164,20 +164,20 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5A Spaces"`
 * Click Action: Open in native file explorer
-* Expectation: Finder opens at correct location
+* Expectation: Finder opens at Folder Path
 
 ### 5B - Spaces Part Quoted - STREAMDECK
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5B Spaces"`
 * Click Action: Open on StreamDeck
 * Automatically open profile
-* Expectation: FolderView profile opens, Folder Item View actions display file icon/name
+* Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
 
 ### 5C - Spaces Part Quoted - TERMINAL
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5C Spaces"`
 * Click Action: Open in Terminal / CMD
-* Expectation: TODO
+* Expectation: Open new Terminal at Folder Path
 
 ### 5D - Spaces Part Quoted - CUSTOM CMD
 
