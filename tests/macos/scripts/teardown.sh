@@ -27,3 +27,4 @@ streamdeck unlink de.artus.fileexplorer --delete
 
 echo "Delete build"
 rm -r ./de.artus.fileexplorer.sdPlugin/bin
+rm -r ./de.artus.fileexplorer.sdPlugin/logs
