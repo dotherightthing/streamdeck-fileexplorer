@@ -61,6 +61,7 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1A`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
+* Result: PASS ✅
 
 ### 1B - No Spaces - STREAMDECK
 
@@ -68,12 +69,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
+* Result: FAIL ❌ - nothing happens, nothing appears in FileExplorerView profile
 
 ### 1C - No Spaces - TERMINAL
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/1C`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
+* Result: PASS ✅
 
 ### 1D - No Spaces - CUSTOM CMD
 
@@ -81,12 +84,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 2A - No Spaces Quoted - EXPLORER
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2A"`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
+* Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 2B - No Spaces Quoted - STREAMDECK
 
@@ -94,12 +99,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
+* Result: FAIL ❌ - nothing happens, nothing appears in FileExplorerView profile
 
 ### 2C - No Spaces Quoted - TERMINAL
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/2C"`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 2D - No Spaces Quoted - CUSTOM CMD
 
@@ -107,12 +114,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 3A - Spaces Escaped - EXPLORER
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3A\ Spaces`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
+* Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 3B - Spaces Escaped - STREAMDECK
 
@@ -120,12 +129,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
+* Result: FAIL ❌ - nothing happens, nothing appears in FileExplorerView profile
 
 ### 3C - Spaces Escaped - TERMINAL
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/3C\ Spaces`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 3D - Spaces Escaped - CUSTOM CMD
 
@@ -133,12 +144,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 4A - Spaces Quoted - EXPLORER
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4A\ Spaces"`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
+* Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 4B - Spaces Quoted - STREAMDECK
 
@@ -146,12 +159,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
+* Result: FAIL ❌ - nothing happens, nothing appears in FileExplorerView profile
 
 ### 4C - Spaces Quoted - TERMINAL
 
 * Folder Path: `"/Users/dan/Websites/streamdeck-fileexplorer/tests/4C\ Spaces"`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 4D - Spaces Quoted - CUSTOM CMD
 
@@ -159,12 +174,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 5A - Spaces Part Quoted - EXPLORER
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5A Spaces"`
 * Click Action: Open in native file explorer
 * Expectation: Finder opens at Folder Path
+* Result: FAIL ❌ - nothing happens, Finder does not open
 
 ### 5B - Spaces Part Quoted - STREAMDECK
 
@@ -172,12 +189,14 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Open on StreamDeck
 * Automatically open profile
 * Expectation: FileExplorerView profile opens, Folder Item View actions display file icon/name
+* Result: FAIL ❌ - nothing happens, nothing appears in FileExplorerView profile
 
 ### 5C - Spaces Part Quoted - TERMINAL
 
 * Folder Path: `/Users/dan/Websites/streamdeck-fileexplorer/tests/"5C Spaces"`
 * Click Action: Open in Terminal / CMD
 * Expectation: Open new Terminal at Folder Path
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ### 5D - Spaces Part Quoted - CUSTOM CMD
 
@@ -185,6 +204,7 @@ Stream Deck > Preferences > Profiles > (down arrow) > Import >
 * Click Action: Run custom command (advanced)
 * Shell command: `echo {path} && ls {path}`
 * Expectation: Terminal displays directory path and its contents
+* Result: FAIL ❌ - nothing happens, Terminal does not open
 
 ---
 
